@@ -20,10 +20,17 @@
         <br/>
     </div>
 </div>
+<div id="districtButtons" style="display: none;">
+    <button onclick="location.href='/?district=Praha'">Praha</button>
+    <button onclick="location.href = '/?district=Brno'">Brno</button>
+</div>
 <script>
     var app = angular.module('kino', []);
     app.controller('kinoCtrl', function($scope, $http) {
         var district = location.search.split("?district=")[1];
+        if (district == null) {
+            document.getElementById("districtButtons").style.display = "";
+        }
         $http.get("/api/kino/" + district)
             .then(function(response) {
                 $scope.cinemaListings = response.data;
