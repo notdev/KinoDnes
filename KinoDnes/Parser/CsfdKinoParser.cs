@@ -69,7 +69,7 @@ namespace KinoDnes.Parser
             var titleNode = movieNode.SelectSingleNode("th/a");
 
             var title = titleNode.InnerText;
-            var url = titleNode.GetAttributeValue("href", "");
+            var url = $"http://csfd.cz/{titleNode.GetAttributeValue("href", "")}";
             var yearNode = movieNode.SelectSingleNode("th/span");
             var year = yearNode.InnerText;
 

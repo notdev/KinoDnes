@@ -11,7 +11,7 @@
         <div>{{listing.CinemaName}}</div>
         <div ng-repeat="movie in listing.Movies">
             <div>
-                {{movie.MovieName}}
+                <a href="{{movie.Url}}">{{movie.MovieName}}</a>
                 <span ng-repeat="time in movie.Times">
                         {{time}}
                     </span>
