@@ -7,5 +7,7 @@ namespace KinoDnes.Models
         public string MovieName { get; set; }
         public string Url { get; set; }
         public List<string> Times { get; set; }
+        public List<string> Flags { get; set; }
+
     }
 }

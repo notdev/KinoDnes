@@ -12,6 +12,7 @@
         <div ng-repeat="movie in listing.Movies">
             <div>
                 <a href="{{movie.Url}}">{{movie.MovieName}}</a>
+                <span>{{movie.Flags.join(', ')}}</span>
                 <span ng-repeat="time in movie.Times">
                         {{time}}
                     </span>

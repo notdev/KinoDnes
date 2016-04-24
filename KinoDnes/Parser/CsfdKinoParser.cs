@@ -75,16 +75,29 @@ namespace KinoDnes.Parser
 
             var timeNodes = movieNode.SelectNodes("td[not(@class)]");
 
-            var timeList =
-                (from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText)
-                    .ToList();
+            var timeList = (from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText).ToList();
+
+            var flags = GetFlags(movieNode);
 
             return new Movie
             {
                 MovieName = $"{title} {year}",
                 Times = timeList,
-                Url = url
+                Url = url,
+                Flags = flags
             };
+        }
+
+        private List<string> GetFlags(HtmlNode movieNode)
+        {
+            var flagNodes = movieNode.SelectNodes("td[@class='flags']/span");
+            if (flagNodes != null)
+            {
+                var flagList = (from flagNode in flagNodes where !string.IsNullOrEmpty(flagNode.InnerText) select flagNode.InnerText).ToList();
+                return flagList;
+            }
+        
+            return new List<string>();
         }
 
         /// <summary>
