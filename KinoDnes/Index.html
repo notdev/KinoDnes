@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Kino Dnes</title>
+    <meta charset="utf-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.10/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="kino" ng-controller="kinoCtrl">
+    <div ng-repeat="listing in cinemaListings">
+        <div>{{listing.CinemaName}}</div>
+        <div ng-repeat="movie in listing.Movies">
+            <div>
+                {{movie.MovieName}}
+                <span ng-repeat="time in movie.Times">
+                        {{time}}
+                    </span>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
+<script>
+    var app = angular.module('kino', []);
+    app.controller('kinoCtrl', function($scope, $http) {
+        var district = location.search.split("?district=")[1];
+        $http.get("/api/kino/" + district)
+            .then(function(response) {
+                $scope.cinemaListings = response.data;
+            });
+    });
+</script>
+</body>
+</html>
