@@ -2,18 +2,68 @@
 <html>
 <head>
     <title>Kino Dnes</title>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.10/angular.min.js"></script>
+    <style type="text/css">
+        #kontejner {
+            margin: 10px;
+        }
+
+        .kino {
+            background: #468966;
+            padding: 10px;
+            margin-bottom: 1px;
+        }
+
+        .film {
+            background: #D1C587;
+            padding: 5px;
+        }
+
+            .film a {
+                color: #333333;
+            }
+
+        .cas, .hodnoceni {
+            font-size: medium;
+        }
+
+        .cas {
+            background: #8DA387;
+            padding: 5px;
+            float: right;
+            margin: -5px -5px 0 7px;
+        }
+
+        .hodnoceni, .prumer, .shit, .dobre {
+            color: #CCCCCC;
+            padding: 5px;
+            float: right;
+            margin: -5px -5px 0 7px;
+        }
+
+        .dobre {
+            background: #8E2800;
+        }
+
+        .prumer {
+            background: #3F92C5;
+        }
+
+        .shit {
+            background: #8592A3;
+        }
+    </style>
 </head>
 <body>
-<div ng-app="kino" ng-controller="kinoCtrl">
+<div ng-app="kino" ng-controller="kinoCtrl" id="kontejner">
     <div ng-repeat="listing in cinemaListings">
-        <div>{{listing.CinemaName}}</div>
-        <div ng-repeat="movie in listing.Movies">
+        <div class="kino">{{listing.CinemaName}}</div>
+        <div class="film" ng-repeat="movie in listing.Movies">
             <div>
                 <a href="{{movie.Url}}">{{movie.MovieName}}</a>
                 <span>{{movie.Flags.join(', ')}}</span>
-                <span ng-repeat="time in movie.Times">
+                <span class="cas" ng-repeat="time in movie.Times">
                         {{time}}
                     </span>
             </div>
