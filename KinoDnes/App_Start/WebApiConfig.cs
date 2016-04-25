@@ -12,7 +12,7 @@ namespace KinoDnes
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute("KinoApi", "api/{controller}/{district}", new {id = RouteParameter.Optional}
+            config.Routes.MapHttpRoute("KinoApi", "api/{controller}/{city}", new {id = RouteParameter.Optional}
                 );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));

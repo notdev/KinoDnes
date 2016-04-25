@@ -4,30 +4,37 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using HtmlAgilityPack;
+using KinoDnes.Cache;
 using KinoDnes.Models;
 
 namespace KinoDnes.Parser
 {
     public class CsfdKinoParser
     {
-        public List<Cinema> GetCinemaListing(string district)
+        private const string AllCinemasCacheKey = "allCinemas";
+
+        public List<Cinema> GetAllCinemas()
         {
-            district = district.ToLower();
-
-            string url;
-
-            switch (district)
+            List<Cinema> allCinemaList = (List<Cinema>) ResponseCache.Get(AllCinemasCacheKey);
+            if (allCinemaList != null)
             {
-                case "brno":
-                    url = "http://www.csfd.cz/kino/?district-filter=55";
-                    break;
-                case "praha":
-                    url = "http://www.csfd.cz/kino/";
-                    break;
-                default:
-                    return null;
+                return allCinemaList;
             }
 
+            allCinemaList = new List<Cinema>();
+
+            // CZ
+            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/?district-filter=0"));
+            // SK
+            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-2/?district-filter=55"));
+
+            ResponseCache.Set(AllCinemasCacheKey, allCinemaList);
+
+            return allCinemaList;
+        }
+
+        private List<Cinema> GetCinemaListing(string url)
+        {
             var document = GetDocumentByUrl(url);
 
             var cinemaElements = GetCinemaElements(document);
