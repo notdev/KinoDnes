@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using KinoDnes.Cache;
 using KinoDnes.Models;
@@ -85,12 +86,14 @@ namespace KinoDnes.Parser
             var timeList = (from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText).ToList();
 
             var flags = GetFlags(movieNode);
+            var rating = GetMovieRating(url);
 
             return new Movie
             {
                 MovieName = $"{title} {year}",
                 Times = timeList,
                 Url = url,
+                Rating = rating,
                 Flags = flags
             };
         }
@@ -105,6 +108,31 @@ namespace KinoDnes.Parser
             }
         
             return new List<string>();
+        }
+
+        private int GetMovieRating(string url)
+        {
+            var rating = ResponseCache.Get(url);
+            if (rating != null)
+            {
+                return (int) rating;
+            }
+      
+            HtmlDocument document = GetDocumentByUrl(url);
+
+            var node = document.DocumentNode.SelectSingleNode("//h2[@class='average']");
+
+            try
+            {
+                rating = int.Parse(Regex.Match(node.InnerText, @"\d*").Value);
+            }
+            catch
+            {
+                rating = -1;
+            }
+
+            ResponseCache.Set(url, rating);
+            return (int) rating;
         }
 
         /// <summary>
