@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Web;
 using System.Web.Http;
-using KinoDnes.Cache;
+using System.Web.Script.Serialization;
 using KinoDnes.Models;
 
 namespace KinoDnes.Controllers
@@ -11,7 +12,13 @@ namespace KinoDnes.Controllers
         // GET api/kino
         public List<Cinema> Get(string city)
         {
-            var listings = ResponseCache.GetAllListings().Where(c => c.CinemaName.Contains(city)).ToList();
+            if (city != "Brno")
+            {
+                return null;
+            }
+            var serializer = new JavaScriptSerializer();
+            var savedListings =  File.ReadAllText(Path.Combine(HttpRuntime.AppDomainAppPath, "savedData.json"));
+            var listings = serializer.Deserialize<List<Cinema>>(savedListings);
             return listings;
         }
     }
