@@ -13,6 +13,7 @@ namespace KinoDnes.Parser
     public class CsfdKinoParser
     {
         private const string AllCinemasCacheKey = "allCinemas";
+        private const string MovieDetailsCacheKey = "movieDetails";
 
         public List<Cinema> GetAllCinemas()
         {
@@ -29,9 +30,32 @@ namespace KinoDnes.Parser
             // SK
             allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-2/?district-filter=55"));
 
+            GetMovieDetails(allCinemaList);
+            
             ResponseCache.Set(AllCinemasCacheKey, allCinemaList);
 
             return allCinemaList;
+        }
+
+        private void GetMovieDetails(List<Cinema> cinemaList)
+        {
+            var ratingDictionary = (Dictionary<string, int>) ResponseCache.Get(MovieDetailsCacheKey) ?? new Dictionary<string, int>();
+
+            foreach (var cinema in cinemaList)
+            {
+                foreach (var movie in cinema.Movies)
+                {
+                    int rating;
+                    if (!ratingDictionary.TryGetValue(movie.Url, out rating))
+                    {
+                        rating = GetMovieRating(movie.Url);
+                        ratingDictionary.Add(movie.Url, rating);
+                    }
+                    movie.Rating = rating;
+                }
+            }
+
+            ResponseCache.Set(MovieDetailsCacheKey, ratingDictionary);
         }
 
         private List<Cinema> GetCinemaListing(string url)
@@ -86,14 +110,12 @@ namespace KinoDnes.Parser
             var timeList = (from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText).ToList();
 
             var flags = GetFlags(movieNode);
-            var rating = GetMovieRating(url);
 
             return new Movie
             {
                 MovieName = $"{title} {year}",
                 Times = timeList,
                 Url = url,
-                Rating = rating,
                 Flags = flags
             };
         }
@@ -112,12 +134,8 @@ namespace KinoDnes.Parser
 
         private int GetMovieRating(string url)
         {
-            var rating = ResponseCache.Get(url);
-            if (rating != null)
-            {
-                return (int) rating;
-            }
-      
+            int rating;
+
             HtmlDocument document = GetDocumentByUrl(url);
 
             var node = document.DocumentNode.SelectSingleNode("//h2[@class='average']");
@@ -131,8 +149,7 @@ namespace KinoDnes.Parser
                 rating = -1;
             }
 
-            ResponseCache.Set(url, rating);
-            return (int) rating;
+            return rating;
         }
 
         /// <summary>
