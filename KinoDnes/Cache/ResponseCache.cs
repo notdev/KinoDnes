@@ -15,7 +15,7 @@ namespace KinoDnes.Cache
 
         public static void Set(string cacheKey, object itemToCache)
         {
-            Cache.Set(cacheKey, itemToCache, DateTime.Today.AddDays(1));
+            Cache.Set(cacheKey, itemToCache, DateTime.UtcNow.Date.AddDays(1));
         }
     }
 }
