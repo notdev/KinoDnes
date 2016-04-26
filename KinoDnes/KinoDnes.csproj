@@ -87,6 +87,7 @@
     <Content Include="favicon.ico" />
     <Content Include="normalize.css" />
     <Content Include="skeleton.css" />
+    <Content Include="bg.png" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
     <Content Include="Web.config" />
