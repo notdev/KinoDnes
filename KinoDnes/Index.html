@@ -13,6 +13,7 @@
     <style type="text/css">
         body {background: url(bg.png)}
         h5 {text-align:center; }
+        .container {}
         .movie {margin-bottom:15px; border-bottom:1px dotted #333333; padding-bottom:10px}
         .movie a {color: black; text-decoration: none;}
         .movie a:hover {background: #CCC;}
@@ -25,7 +26,7 @@
 
 <div ng-app="kino" ng-controller="kinoCtrl" class="container" >
     <div ng-repeat="listing in cinemaListings" class="row">
-        <div class="column" style="margin-top:3%">
+        <div class="column" style="margin:3% 0">
         <h5>{{listing.CinemaName}}</h5>
         <div class="movie" ng-repeat="movie in listing.Movies">
                 <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
