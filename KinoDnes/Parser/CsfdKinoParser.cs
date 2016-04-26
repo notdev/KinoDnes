@@ -12,18 +12,9 @@ namespace KinoDnes.Parser
 {
     public class CsfdKinoParser
     {
-        private const string AllCinemasCacheKey = "allCinemas";
-        private const string MovieDetailsCacheKey = "movieDetails";
-
         public List<Cinema> GetAllCinemas()
         {
-            List<Cinema> allCinemaList = (List<Cinema>) ResponseCache.Get(AllCinemasCacheKey);
-            if (allCinemaList != null)
-            {
-                return allCinemaList;
-            }
-
-            allCinemaList = new List<Cinema>();
+            var allCinemaList = new List<Cinema>();
 
             // CZ
             allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/?district-filter=0"));
@@ -31,15 +22,13 @@ namespace KinoDnes.Parser
             allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-2/?district-filter=55"));
 
             GetMovieDetails(allCinemaList);
-            
-            ResponseCache.Set(AllCinemasCacheKey, allCinemaList);
 
             return allCinemaList;
         }
 
         private void GetMovieDetails(List<Cinema> cinemaList)
         {
-            var ratingDictionary = (Dictionary<string, int>) ResponseCache.Get(MovieDetailsCacheKey) ?? new Dictionary<string, int>();
+            var ratingDictionary = new Dictionary<string, int>();
 
             foreach (var cinema in cinemaList)
             {
@@ -48,14 +37,12 @@ namespace KinoDnes.Parser
                     int rating;
                     if (!ratingDictionary.TryGetValue(movie.Url, out rating))
                     {
-                        rating = GetMovieRating(movie.Url);
+                        rating = ResponseCache.GetMovieDetails(movie.Url);
                         ratingDictionary.Add(movie.Url, rating);
                     }
                     movie.Rating = rating;
                 }
             }
-
-            ResponseCache.Set(MovieDetailsCacheKey, ratingDictionary);
         }
 
         private List<Cinema> GetCinemaListing(string url)
@@ -132,7 +119,7 @@ namespace KinoDnes.Parser
             return new List<string>();
         }
 
-        private int GetMovieRating(string url)
+        public int GetMovieRating(string url)
         {
             int rating;
 
