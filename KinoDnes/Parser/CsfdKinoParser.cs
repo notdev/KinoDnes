@@ -110,13 +110,31 @@ namespace KinoDnes.Parser
         private List<string> GetFlags(HtmlNode movieNode)
         {
             var flagNodes = movieNode.SelectNodes("td[@class='flags']/span");
+
+            var flagList = new List<string>();
             if (flagNodes != null)
             {
-                var flagList = (from flagNode in flagNodes where !string.IsNullOrEmpty(flagNode.InnerText) select flagNode.InnerText).ToList();
-                return flagList;
+                foreach (var flagNode in flagNodes)
+                {
+                    string flag = string.Empty;
+
+                    switch (flagNode.InnerText)
+                    {
+                        case "D":
+                            flag = "Dabing";
+                            break;
+                        case "T":
+                            flag = "Titulky";
+                            break;
+                        case "3D":
+                            flag = "3D";
+                            break;
+                    }
+                    flagList.Add(flag);
+                }
             }
-        
-            return new List<string>();
+
+            return flagList;
         }
 
         public int GetMovieRating(string url)
