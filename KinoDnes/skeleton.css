@@ -43,6 +43,8 @@
 
 /* For devices larger than 400px */
 @media (min-width: 400px) {
+  hr.nadpis {text-align: center; height: 6px;background: url(http://ibrahimjabbari.com/english/images/hr-12.png) 
+        repeat-x 0 0;border: 0; width:90%; margin: 0 auto; padding-bottom: 20px;}
   .container {
     width: 85%;
     padding: 0; }
