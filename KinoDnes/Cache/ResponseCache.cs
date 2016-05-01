@@ -12,7 +12,7 @@ namespace KinoDnes.Cache
 
         public static List<Cinema> GetAllListings()
         {
-            return (List<Cinema>) AddOrGetExisting("AllCinemasCacheKey", InitAllCinemaListings);
+            return AddOrGetExisting("AllCinemasCacheKey", InitAllCinemaListings);
         }
 
         public static int GetMovieDetails(string url)
@@ -35,9 +35,16 @@ namespace KinoDnes.Cache
             }
         }
 
-        private static object InitAllCinemaListings()
+        private static List<Cinema> InitAllCinemaListings()
         {
-            return new CsfdKinoParser().GetAllCinemas();
+            var cinemaList = FileSystemCinemaCache.GetCinemaCache();
+            if (cinemaList == null)
+            {
+                var parser = new CsfdKinoParser();
+                cinemaList = parser.GetAllCinemas();
+                FileSystemCinemaCache.SetCinemaCache(cinemaList);
+            }
+            return cinemaList;
         }
 
         private static int InitMovieDetails(string url)
