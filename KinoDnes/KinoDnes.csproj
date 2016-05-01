@@ -91,6 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="hr-12.png" />
     <Content Include="bg.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
