@@ -17,9 +17,9 @@ namespace KinoDnes.Parser
             var allCinemaList = new List<Cinema>();
 
             // CZ
-            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/?district-filter=0"));
+            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-1/?district-filter=0"));
             // SK
-            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-2/?district-filter=55"));
+            allCinemaList.AddRange(GetCinemaListing("http://www.csfd.cz/kino/filtr-2/?district-filter=0"));
 
             GetMovieDetails(allCinemaList);
 
