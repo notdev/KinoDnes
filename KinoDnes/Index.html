@@ -26,7 +26,7 @@
 <div ng-app="kino" ng-controller="kinoCtrl" class="container" >
     <div ng-repeat="listing in cinemaListings" class="row">
         <div class="column" style="margin:3% 0">
-        <h5>{{listing.CinemaName}}</h5><hr class="nadpis">
+        <h5><a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{listing.CinemaName}}</a></h5><hr class="nadpis">
         <div class="movie" ng-repeat="movie in listing.Movies">
                 <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
                 <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
