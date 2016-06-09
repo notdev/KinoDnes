@@ -79,7 +79,7 @@
                 <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
                 <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
                 <span ng-if="30 <= movie.Rating && movie.Rating < 70" class="prumer"> {{movie.Rating}} %</span>
-                <span ng-if="70 < movie.Rating" class="dobre"> {{movie.Rating}} %</span><br>
+                <span ng-if="70 <= movie.Rating" class="dobre"> {{movie.Rating}} %</span><br>
                 <code ng-repeat="time in movie.Times">{{time}}</code><span>{{movie.Flags.join(', ')}}</span>
             </div>
         </div>
