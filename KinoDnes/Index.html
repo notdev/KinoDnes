@@ -88,6 +88,11 @@
         <button onclick="location.href = '/?city=Praha'">Praha</button>
         <button onclick="location.href = '/?city=Brno'">Brno</button>
     </div>
+    <div id="noMoviesMessage" style="display: none;">
+        <div class="container" style="margin: 0 auto;">
+            <h5>Dnes už v kině nic nedávají, zkuste to znovu zítra.</h5>
+        </div>
+    </div>
     <script>
         var app = angular.module('kino', []);
         app.controller('kinoCtrl', function($scope, $http) {
@@ -97,7 +102,10 @@
             } else {
                 $scope.loading = true;
                 $http.get("/api/kino/" + district)
-                    .then(function(response) {
+                    .then(function (response) {
+                        if (response.data.length === 0) {
+                            document.getElementById("noMoviesMessage").style.display = "";
+                        };
                         $scope.cinemaListings = response.data;
                         $scope.loading = false;
                     });
