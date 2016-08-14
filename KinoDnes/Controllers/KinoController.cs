@@ -12,7 +12,8 @@ namespace KinoDnes.Controllers
 {
     public class KinoController : ApiController
     {
-        // GET api/kino
+        [HttpGet]
+        [Route("api/kino/{city}")]
         public List<Cinema> Get(string city)
         {
             string standardizedCity = StandardizeString(city);
