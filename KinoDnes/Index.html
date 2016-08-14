@@ -6,12 +6,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.10/angular.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="Static/normalize.css">
+    <link rel="stylesheet" href="Static/skeleton.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <style type="text/css">
-        body { background: url(bg.png) }
+        body { background: url(Static/bg.png) }
 
         h5 { text-align: center; }
 
@@ -85,19 +85,19 @@
         </div>
     </div>
     <div id="districtButtons" style="display: none;">
-        <button onclick="location.href = '/?city=Praha'">Praha</button>
-        <button onclick="location.href = '/?city=Brno'">Brno</button>
+        <button onclick="location.href = '/Praha'">Praha</button>
+        <button onclick="location.href = '/Brno'">Brno</button>
     </div>
     <div id="noMoviesMessage" style="display: none;">
         <div class="container" style="margin: 0 auto;">
-            <h5>Dnes už v kině nic nedávají, zkuste to znovu zítra.</h5>
+            <h5>Dnes jiz v kině nic nedávají, zkuste to znovu zítra.</h5>
         </div>
     </div>
     <script>
         var app = angular.module('kino', []);
         app.controller('kinoCtrl', function($scope, $http) {
-            var district = location.search.split("?city=")[1];
-            if (district == null) {
+            var district = location.pathname.replace("/","");
+            if (!district) {
                 document.getElementById("districtButtons").style.display = "";
             } else {
                 $scope.loading = true;

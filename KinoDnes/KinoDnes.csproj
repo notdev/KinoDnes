@@ -93,13 +93,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="hr-12.png" />
-    <Content Include="bg.png" />
+    <Content Include="Static\hr-12.png" />
+    <Content Include="Static\bg.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="normalize.css" />
-    <Content Include="skeleton.css" />
+    <Content Include="Static\normalize.css" />
+    <Content Include="Static\skeleton.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
