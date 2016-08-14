@@ -23,8 +23,8 @@ namespace KinoDnes.Cache
 
         private static IEnumerable<string> InitCityList()
         {
-            var allCinemas = GetAllListings().Select(l => l.CinemaName).Distinct();
-            var cities = allCinemas.Select(cinema => cinema.Split('-').FirstOrDefault()).Distinct();
+            var allCinemas = GetAllListings().Select(l => l.CinemaName);
+            var cities = allCinemas.Select(cinema => cinema.Split('-').FirstOrDefault()).Distinct().OrderBy(c => c);
 
             var top3Cities = new List<string>() { "Praha", "Brno", "Bratislava", "Ostrava" };
             // Do not show Top cities by population
