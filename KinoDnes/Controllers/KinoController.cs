@@ -23,6 +23,13 @@ namespace KinoDnes.Controllers
             return listings;
         }
 
+        [HttpGet]
+        [Route("api/kino/Cities")]
+        public IEnumerable<string> GetCities()
+        {
+            return ResponseCache.GetCityList();
+        }
+
         private string RemoveDiacritics(string originalString)
         {
             var normalizedString = originalString.Normalize(NormalizationForm.FormD);

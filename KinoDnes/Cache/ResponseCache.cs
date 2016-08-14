@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 using KinoDnes.Models;
 using KinoDnes.Parser;
@@ -13,6 +14,22 @@ namespace KinoDnes.Cache
         public static List<Cinema> GetAllListings()
         {
             return AddOrGetExisting("AllCinemasCacheKey", InitAllCinemaListings);
+        }
+
+        public static IEnumerable<string> GetCityList()
+        {
+            return AddOrGetExisting("CityCacheKey", InitCityList);
+        }
+
+        private static IEnumerable<string> InitCityList()
+        {
+            var allCinemas = GetAllListings().Select(l => l.CinemaName).Distinct();
+            var cities = allCinemas.Select(cinema => cinema.Split('-').FirstOrDefault()).Distinct();
+
+            var top3Cities = new List<string>() { "Praha", "Brno", "Ostrava" };
+            // Do not show Top 3 cities by population
+            var citiesWithoutMainCities = cities.Where(c => !top3Cities.Contains(c));
+            return citiesWithoutMainCities;
         }
 
         public static int GetMovieDetails(string url)
