@@ -26,8 +26,8 @@ namespace KinoDnes.Cache
             var allCinemas = GetAllListings().Select(l => l.CinemaName).Distinct();
             var cities = allCinemas.Select(cinema => cinema.Split('-').FirstOrDefault()).Distinct();
 
-            var top3Cities = new List<string>() { "Praha", "Brno", "Ostrava" };
-            // Do not show Top 3 cities by population
+            var top3Cities = new List<string>() { "Praha", "Brno", "Bratislava", "Ostrava" };
+            // Do not show Top cities by population
             var citiesWithoutMainCities = cities.Where(c => !top3Cities.Contains(c));
             return citiesWithoutMainCities;
         }
