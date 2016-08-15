@@ -85,18 +85,6 @@
             </div>
         </div>
         <div id="districtButtons" style="display: none;">
-            <div>
-                <button ng-click="selectCity('Praha')">Praha</button>
-            </div>
-            <div>
-                <button ng-click="selectCity('Bratislava')">Bratislava</button>
-            </div>
-            <div>
-                <button ng-click="selectCity('Brno')">Brno</button>
-            </div>
-            <div>
-                <button ng-click="selectCity('Ostrava')">Ostrava</button>
-            </div>
             <div ng-repeat="city in cityList">
                 <button ng-click="selectCity(city)">{{city}}</button>
             </div>

@@ -21,15 +21,25 @@ namespace KinoDnes.Cache
             return AddOrGetExisting("CityCacheKey", InitCityList);
         }
 
+        private static string GetCityName(string cityAndCinemaName)
+        {
+            var split = cityAndCinemaName.Split(new[] {" - "}, StringSplitOptions.None);
+            if (split.Length < 2)
+            {
+                throw new ArgumentException($"City name must be in format 'City - Cinema'. Failed to parse '{cityAndCinemaName}'");
+            }
+            return split[0];
+        }
+
         private static IEnumerable<string> InitCityList()
         {
-            var allCinemas = GetAllListings().Select(l => l.CinemaName);
-            var cities = allCinemas.Select(cinema => cinema.Split('-').FirstOrDefault()).Distinct().OrderBy(c => c);
+            var allCinemas = GetAllListings().Select(listing => listing.CinemaName);
+            var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
 
-            var top3Cities = new List<string>() { "Praha", "Brno", "Bratislava", "Ostrava" };
-            // Do not show Top cities by population
-            var citiesWithoutMainCities = cities.Where(c => !top3Cities.Contains(c));
-            return citiesWithoutMainCities;
+            var topCities = new List<string> { "Praha", "Brno", "Bratislava", "Ostrava" };
+
+            var allCities = topCities.Concat(cities).Distinct();
+            return allCities;
         }
 
         public static int GetMovieDetails(string url)
