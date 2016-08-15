@@ -73,7 +73,7 @@
         <div ng-repeat="listing in cinemaListings" class="row">
             <div class="column" style="margin: 3% 0">
                 <h5>
-                    <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{listing.CinemaName}}</a>
+                    <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{hideCityName(listing.CinemaName);}}</a>
                 </h5><hr class="nadpis">
                 <div class="movie" ng-repeat="movie in listing.Movies">
                     <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
@@ -103,6 +103,11 @@
                 $scope.selectCity = function(cityName) {
                     location.href = "/" + cityName;
                 };
+
+                $scope.hideCityName = function (cityAndCinema) {
+                    var cinemaName = cityAndCinema.replace(/.*?- /, "");
+                    return cinemaName;
+                }
 
                 function displayCityList() {
                     $http.get("/api/kino/Cities")
