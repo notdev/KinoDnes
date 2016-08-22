@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,6 +8,7 @@ using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using KinoDnes.Cache;
 using KinoDnes.Models;
+using KinoDnes.Time;
 
 namespace KinoDnes.Parser
 {
@@ -94,7 +96,7 @@ namespace KinoDnes.Parser
 
             var timeNodes = movieNode.SelectNodes("td[not(@class)]");
 
-            var timeList = (from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText).ToList();
+            var timeList = GetTimeList(timeNodes);
 
             var flags = GetFlags(movieNode);
 
@@ -105,6 +107,24 @@ namespace KinoDnes.Parser
                 Url = url,
                 Flags = flags
             };
+        }
+
+        private List<DateTime> GetTimeList(HtmlNodeCollection timeNodes)
+        {
+            var timesAsString = from timeNode in timeNodes where !string.IsNullOrEmpty(timeNode.InnerText) select timeNode.InnerText;
+            return timesAsString.Select(GetTimeFromString).ToList();
+        }
+
+        private DateTime GetTimeFromString(string time)
+        {
+            var cestNow = TimeHelper.CESTTimeNow;
+            var hoursAndMinutes = time.Split(':');
+            string hourString = hoursAndMinutes.First();
+            string minutesString = hoursAndMinutes.Last();
+            int hours = int.Parse(hourString);
+            int minutes = int.Parse(minutesString);
+            var timeFromString = new DateTime(cestNow.Year, cestNow.Month, cestNow.Day, hours, minutes, 0);
+            return timeFromString;
         }
 
         private List<string> GetFlags(HtmlNode movieNode)

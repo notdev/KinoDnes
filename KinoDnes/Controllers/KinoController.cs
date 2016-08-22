@@ -7,6 +7,7 @@ using KinoDnes.Models;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using KinoDnes.Time;
 
 namespace KinoDnes.Controllers
 {
@@ -58,7 +59,7 @@ namespace KinoDnes.Controllers
 
         private List<Cinema> GetCinemasWithMoviesPlayingToday(List<Cinema> cinemas)
         {
-            var currentTime = GetCESTTimeNow();
+            var currentTime = TimeHelper.CESTTimeNow;
 
             var listingsPlayingSinceNow = new List<Cinema>();
 
@@ -74,19 +75,14 @@ namespace KinoDnes.Controllers
                         Flags = movie.Flags,
                         Rating = movie.Rating,
                         Url = movie.Url,
-                        Times = new List<string>()
+                        Times = new List<DateTime>()
                     };
 
                     foreach (var time in movie.Times)
                     {
-                        int hours = int.Parse(time.Split(':').First());
-                        int minutes = int.Parse(time.Split(':').Last());
-
-                        var listingTime = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hours, minutes, 0);
-
-                        if (listingTime > currentTime)
+                        if (time > currentTime)
                         {
-                            movieWithCurrentTimes.Times.Add($"{hours.ToString("D2")}:{minutes.ToString("D2")}");
+                            movieWithCurrentTimes.Times.Add(time);
                         }
                     }
                     if (movieWithCurrentTimes.Times.Count > 0)
@@ -100,17 +96,11 @@ namespace KinoDnes.Controllers
                     listingsPlayingSinceNow.Add(new Cinema
                     {
                         CinemaName = listing.CinemaName,
-                        Movies = moviesInThisListing
+                        Movies = moviesInThisListing.OrderBy(l => l.Times.First())
                     });
                 }
             }
             return listingsPlayingSinceNow;
-        }
-
-        private DateTime GetCESTTimeNow()
-        {
-            DateTime cestTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
-            return cestTime;
         }
     }
 }

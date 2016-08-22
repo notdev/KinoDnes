@@ -28,10 +28,19 @@ namespace KinoDnes.Cache
                     return null;
                 }
 
-                var cinemaCache = JsonConvert.DeserializeObject<CinemaFsCache>(cinemasString);
-                if (cinemaCache.ValidUntil > DateTime.UtcNow)
+                try
                 {
-                    return cinemaCache.Cinemas;
+                    var cinemaCache = JsonConvert.DeserializeObject<CinemaFsCache>(cinemasString);
+                    if (cinemaCache.ValidUntil > DateTime.UtcNow)
+                    {
+                        return cinemaCache.Cinemas;
+                    }
+                }
+                catch (JsonReaderException)
+                {
+                    // Return null on deserialization error
+                    // Data class may change but server will persist cached file with new deployment
+                    return null;
                 }
             }
             return null;
