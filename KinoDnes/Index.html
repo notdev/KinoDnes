@@ -54,13 +54,13 @@
         }
 
         @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
+            0% { -webkit-transform: rotate(0); }
 
             100% { -webkit-transform: rotate(360deg); }
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
+            0% { transform: rotate(0); }
 
             100% { transform: rotate(360deg); }
         }
@@ -149,7 +149,10 @@
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-82408384-1', 'auto');
-    ga('send', 'pageview');
+    ga('send', {
+        hitType: 'pageview',
+        page: location.pathname
+    });
     </script>
 </body>
 </html>
