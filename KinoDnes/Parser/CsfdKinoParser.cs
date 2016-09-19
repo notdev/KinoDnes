@@ -85,7 +85,7 @@ namespace KinoDnes.Parser
             return result;
         }
 
-        private Movie GetMovie(HtmlNode movieNode)
+        private CinemaMovie GetMovie(HtmlNode movieNode)
         {
             var titleNode = movieNode.SelectSingleNode("th/a");
 
@@ -100,7 +100,7 @@ namespace KinoDnes.Parser
 
             var flags = GetFlags(movieNode);
 
-            return new Movie
+            return new CinemaMovie
             {
                 MovieName = $"{title} {year}",
                 Times = timeList,

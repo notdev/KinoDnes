@@ -65,11 +65,11 @@ namespace KinoDnes.Controllers
 
             foreach (var listing in cinemas)
             {
-                var moviesInThisListing = new List<Movie>();
+                var moviesInThisListing = new List<CinemaMovie>();
 
                 foreach (var movie in listing.Movies)
                 {
-                    var movieWithCurrentTimes = new Movie
+                    var movieWithCurrentTimes = new CinemaMovie
                     {
                         MovieName = movie.MovieName,
                         Flags = movie.Flags,

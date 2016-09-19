@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KinoDnes.Models
 {
-    public class Movie
+    public class CinemaMovie
     {
         public string MovieName { get; set; }
         public string Url { get; set; }
