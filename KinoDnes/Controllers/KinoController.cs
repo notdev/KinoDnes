@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using KinoDnes.Cache;
 using KinoDnes.Models;
-using System.Text;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using KinoDnes.Time;
 
 namespace KinoDnes.Controllers
@@ -17,7 +17,7 @@ namespace KinoDnes.Controllers
         [Route("api/kino/{city}")]
         public List<Cinema> Get(string city)
         {
-            string standardizedCity = StandardizeString(city);
+            var standardizedCity = StandardizeString(city);
 
             var listings = ResponseCache.GetAllListings().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
             listings = GetCinemasWithMoviesPlayingToday(listings);
@@ -50,7 +50,7 @@ namespace KinoDnes.Controllers
 
         private string StandardizeString(string str)
         {
-            string standardizedName = str.ToLower();
+            var standardizedName = str.ToLower();
             standardizedName = Regex.Replace(standardizedName, @"\s+", "");
             standardizedName = RemoveDiacritics(standardizedName);
 

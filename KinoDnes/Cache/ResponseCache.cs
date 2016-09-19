@@ -36,7 +36,7 @@ namespace KinoDnes.Cache
             var allCinemas = GetAllListings().Select(listing => listing.CinemaName);
             var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
 
-            var topCities = new List<string> { "Praha", "Brno", "Bratislava", "Ostrava" };
+            var topCities = new List<string> {"Praha", "Brno", "Bratislava", "Ostrava"};
 
             var allCities = topCities.Concat(cities).Distinct();
             return allCities;

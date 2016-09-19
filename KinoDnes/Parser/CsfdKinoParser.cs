@@ -119,10 +119,10 @@ namespace KinoDnes.Parser
         {
             var cestNow = TimeHelper.CESTTimeNow;
             var hoursAndMinutes = time.Split(':');
-            string hourString = hoursAndMinutes.First();
-            string minutesString = hoursAndMinutes.Last();
-            int hours = int.Parse(hourString);
-            int minutes = int.Parse(minutesString);
+            var hourString = hoursAndMinutes.First();
+            var minutesString = hoursAndMinutes.Last();
+            var hours = int.Parse(hourString);
+            var minutes = int.Parse(minutesString);
             var timeFromString = new DateTime(cestNow.Year, cestNow.Month, cestNow.Day, hours, minutes, 0);
             return timeFromString;
         }
@@ -136,7 +136,7 @@ namespace KinoDnes.Parser
             {
                 foreach (var flagNode in flagNodes)
                 {
-                    string flag = string.Empty;
+                    var flag = string.Empty;
 
                     switch (flagNode.InnerText)
                     {
@@ -161,7 +161,7 @@ namespace KinoDnes.Parser
         {
             int rating;
 
-            HtmlDocument document = GetDocumentByUrl(url);
+            var document = GetDocumentByUrl(url);
 
             var node = document.DocumentNode.SelectSingleNode("//h2[@class='average']");
 

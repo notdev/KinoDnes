@@ -68,33 +68,33 @@
 </head>
 <body>
 
-    <div ng-app="kino" ng-controller="kinoCtrl" class="container">
-        <div class="loadersmall" ng-show="loading"></div>
-        <div ng-repeat="listing in cinemaListings" class="row">
-            <div class="column" style="margin: 3% 0">
-                <h5>
-                    <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{hideCityName(listing.CinemaName);}}</a>
-                </h5><hr class="nadpis">
-                <div class="movie" ng-repeat="movie in listing.Movies">
-                    <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
-                    <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
-                    <span ng-if="30 <= movie.Rating && movie.Rating < 70" class="prumer"> {{movie.Rating}} %</span>
-                    <span ng-if="70 <= movie.Rating" class="dobre"> {{movie.Rating}} %</span><br>
-                    <code ng-repeat="time in movie.Times">{{time | date : 'HH:mm'}}</code><span>{{movie.Flags.join(', ')}}</span>
-                </div>
+<div ng-app="kino" ng-controller="kinoCtrl" class="container">
+    <div class="loadersmall" ng-show="loading"></div>
+    <div ng-repeat="listing in cinemaListings" class="row">
+        <div class="column" style="margin: 3% 0">
+            <h5>
+                <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{hideCityName(listing.CinemaName);}}</a>
+            </h5><hr class="nadpis">
+            <div class="movie" ng-repeat="movie in listing.Movies">
+                <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
+                <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
+                <span ng-if="30 <= movie.Rating && movie.Rating < 70" class="prumer"> {{movie.Rating}} %</span>
+                <span ng-if="70 <= movie.Rating" class="dobre"> {{movie.Rating}} %</span><br>
+                <code ng-repeat="time in movie.Times">{{time | date : 'HH:mm'}}</code><span>{{movie.Flags.join(', ')}}</span>
             </div>
         </div>
-        <div id="districtButtons" style="display: none;">
-            <div ng-repeat="city in cityList">
-                <button ng-click="selectCity(city)">{{city}}</button>
-            </div>
+    </div>
+    <div id="districtButtons" style="display: none;">
+        <div ng-repeat="city in cityList">
+            <button ng-click="selectCity(city)">{{city}}</button>
         </div>
-        <div id="noMoviesMessage" style="display: none;">
-            <div class="container" style="margin: 0 auto;">
-                <h5>Dnes jiz v kině nic nedávají, zkuste to znovu zítra.</h5>
-            </div>
+    </div>
+    <div id="noMoviesMessage" style="display: none;">
+        <div class="container" style="margin: 0 auto;">
+            <h5>Dnes jiz v kině nic nedávají, zkuste to znovu zítra.</h5>
         </div>
-        <script>
+    </div>
+    <script>
         var app = angular.module('kino', []);
         app.controller('kinoCtrl',
             function($scope, $http) {
@@ -104,10 +104,10 @@
                     location.href = "/" + cityName;
                 };
 
-                $scope.hideCityName = function (cityAndCinema) {
+                $scope.hideCityName = function(cityAndCinema) {
                     var cinemaName = cityAndCinema.replace(/.*?- /, "");
                     return cinemaName;
-                }
+                };
 
                 function displayCityList() {
                     $http.get("/api/kino/Cities")
@@ -132,9 +132,9 @@
                         });
                 }
             });
-        </script>
-    </div>
-    <script>
+    </script>
+</div>
+<script>
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] ||
@@ -149,10 +149,11 @@
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-82408384-1', 'auto');
-    ga('send', {
+    ga('send',
+    {
         hitType: 'pageview',
         page: location.pathname
     });
-    </script>
+</script>
 </body>
 </html>

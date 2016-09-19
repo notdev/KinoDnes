@@ -8,7 +8,7 @@ namespace KinoDnes.Time
         {
             get
             {
-                DateTime cestTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
+                var cestTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
                 return cestTime;
             }
         }
