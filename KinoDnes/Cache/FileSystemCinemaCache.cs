@@ -14,7 +14,7 @@ namespace KinoDnes.Cache
 
         private static readonly object LockObject = new object();
 
-        public static List<Cinema> GetCinemaCache()
+        public static IEnumerable<Cinema> GetCinemaCache()
         {
             lock (LockObject)
             {
@@ -46,7 +46,7 @@ namespace KinoDnes.Cache
             return null;
         }
 
-        public static void SetCinemaCache(List<Cinema> cinemaList)
+        public static void SetCinemaCache(IEnumerable<Cinema> cinemaList)
         {
             lock (LockObject)
             {

@@ -65,11 +65,11 @@ namespace KinoDnes.Controllers
 
             foreach (var listing in cinemas)
             {
-                var moviesInThisListing = new List<CinemaMovie>();
+                var moviesInThisListing = new List<Movie>();
 
                 foreach (var movie in listing.Movies)
                 {
-                    var movieWithCurrentTimes = new CinemaMovie
+                    var movieWithCurrentTimes = new Movie
                     {
                         MovieName = movie.MovieName,
                         Flags = movie.Flags,
@@ -78,14 +78,8 @@ namespace KinoDnes.Controllers
                         Times = new List<DateTime>()
                     };
 
-                    foreach (var time in movie.Times)
-                    {
-                        if (time > currentTime)
-                        {
-                            movieWithCurrentTimes.Times.Add(time);
-                        }
-                    }
-                    if (movieWithCurrentTimes.Times.Count > 0)
+                    movieWithCurrentTimes.Times = movie.Times.Where(t => t > currentTime);
+                    if (movieWithCurrentTimes.Times.Any())
                     {
                         moviesInThisListing.Add(movieWithCurrentTimes);
                     }

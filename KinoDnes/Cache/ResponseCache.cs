@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
+using CsfdAPI;
+using KinoDnes.DataProvider;
 using KinoDnes.Models;
-using KinoDnes.Parser;
+using Movie = CsfdAPI.Model.Movie;
 
 namespace KinoDnes.Cache
 {
@@ -11,7 +13,7 @@ namespace KinoDnes.Cache
     {
         private static readonly MemoryCache Cache = MemoryCache.Default;
 
-        public static List<Cinema> GetAllListings()
+        public static IEnumerable<Cinema> GetAllListings()
         {
             return AddOrGetExisting("AllCinemasCacheKey", InitAllCinemaListings);
         }
@@ -42,7 +44,7 @@ namespace KinoDnes.Cache
             return allCities;
         }
 
-        public static int GetMovieDetails(string url)
+        public static Movie GetMovieDetails(string url)
         {
             return AddOrGetExisting(url, () => InitMovieDetails(url));
         }
@@ -62,21 +64,21 @@ namespace KinoDnes.Cache
             }
         }
 
-        private static List<Cinema> InitAllCinemaListings()
+        private static IEnumerable<Cinema> InitAllCinemaListings()
         {
             var cinemaList = FileSystemCinemaCache.GetCinemaCache();
             if (cinemaList == null)
             {
-                var parser = new CsfdKinoParser();
+                var parser = new CsfdDataProvider();
                 cinemaList = parser.GetAllCinemas();
                 FileSystemCinemaCache.SetCinemaCache(cinemaList);
             }
             return cinemaList;
         }
 
-        private static int InitMovieDetails(string url)
+        private static Movie InitMovieDetails(string url)
         {
-            return new CsfdKinoParser().GetMovieRating(url);
+            return new CsfdApi().GetMovie(url);
         }
     }
 }
