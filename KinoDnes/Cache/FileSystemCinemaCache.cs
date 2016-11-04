@@ -36,10 +36,14 @@ namespace KinoDnes.Cache
                         return cinemaCache.Cinemas;
                     }
                 }
+                // Return null on deserialization error
+                // Data class may change but server will persist cached file with new deployment
                 catch (JsonReaderException)
                 {
-                    // Return null on deserialization error
-                    // Data class may change but server will persist cached file with new deployment
+                    return null;
+                }
+                catch (JsonSerializationException)
+                {
                     return null;
                 }
             }

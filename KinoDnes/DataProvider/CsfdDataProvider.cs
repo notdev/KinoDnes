@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CsfdAPI;
 using CsfdAPI.Model;
 using KinoDnes.Cache;
+using KinoDnes.Models;
 using Cinema = KinoDnes.Models.Cinema;
 using Movie = KinoDnes.Models.Movie;
 
@@ -15,9 +17,7 @@ namespace KinoDnes.DataProvider
             var csfdApi = new CsfdApi();
             var allListings = csfdApi.GetAllCinemaListings().ToList();
 
-            var allCinemaList = new List<Cinema>();
-            allListings.ForEach(listing => { allCinemaList.Add(ApiListingToListingsWithRating(listing)); });
-
+            var allCinemaList = allListings.Select(ApiListingToListingsWithRating);
             return allCinemaList;
         }
 
@@ -26,23 +26,32 @@ namespace KinoDnes.DataProvider
             var listing = new Cinema
             {
                 CinemaName = cinemaListing.CinemaName,
-                Movies = ApiMoviesToMoviesWithRating(cinemaListing.Movies)
+                Movies = MergeDuplicateMoviesAndAddRating(cinemaListing.Movies)
             };
             return listing;
         }
 
-        private IEnumerable<Movie> ApiMoviesToMoviesWithRating(IEnumerable<CinemaMovie> cinemaListingMovies)
+        private IEnumerable<Movie> MergeDuplicateMoviesAndAddRating(IEnumerable<CinemaMovie> cinemaListingMovies)
         {
-            var listingMovies = new List<Movie>();
+            var listingMoviesDictionary = new Dictionary<string, Movie>();
             var ratingDictionary = new Dictionary<string, int>();
 
             foreach (var cinemaListingMovie in cinemaListingMovies)
             {
+                var movieTimes = cinemaListingMovie.Times.Select(time => new MovieTime(time, GetShortFlags(cinemaListingMovie.Flags)));
+
+                // Movie already exist in this listing, add times
+                if (listingMoviesDictionary.Keys.Contains(cinemaListingMovie.MovieName))
+                {
+                    var mergedTimes = listingMoviesDictionary[cinemaListingMovie.MovieName].Times.Concat(movieTimes).OrderBy(t => t.Time);
+                    listingMoviesDictionary[cinemaListingMovie.MovieName].Times = mergedTimes;
+                    continue;
+                }
+
                 var movie = new Movie
                 {
                     MovieName = cinemaListingMovie.MovieName,
-                    Flags = cinemaListingMovie.Flags,
-                    Times = cinemaListingMovie.Times,
+                    Times = movieTimes,
                     Url = cinemaListingMovie.Url
                 };
 
@@ -55,9 +64,28 @@ namespace KinoDnes.DataProvider
                 }
                 movie.Rating = rating;
 
-                listingMovies.Add(movie);
+                listingMoviesDictionary.Add(movie.MovieName, movie);
             }
-            return listingMovies;
+            return listingMoviesDictionary.Values;
+        }
+
+        private IEnumerable<string> GetShortFlags(IEnumerable<string> flags)
+        {
+            foreach (var flag in flags)
+            {
+                switch (flag)
+                {
+                    case "Titulky":
+                        yield return "T";
+                        break;
+                    case "Dabing":
+                        yield return "D";
+                        break;
+                    default:
+                        yield return flag;
+                        break;
+                }
+            }
         }
     }
 }

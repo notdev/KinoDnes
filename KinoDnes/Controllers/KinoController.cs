@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -69,20 +68,22 @@ namespace KinoDnes.Controllers
 
                 foreach (var movie in listing.Movies)
                 {
+                    var currentTimes = movie.Times.Where(t => t.Time > currentTime).ToList();
+
+                    if (!currentTimes.Any())
+                    {
+                        continue;
+                    }
+
                     var movieWithCurrentTimes = new Movie
                     {
                         MovieName = movie.MovieName,
-                        Flags = movie.Flags,
                         Rating = movie.Rating,
                         Url = movie.Url,
-                        Times = new List<DateTime>()
+                        Times = currentTimes
                     };
 
-                    movieWithCurrentTimes.Times = movie.Times.Where(t => t > currentTime);
-                    if (movieWithCurrentTimes.Times.Any())
-                    {
-                        moviesInThisListing.Add(movieWithCurrentTimes);
-                    }
+                    moviesInThisListing.Add(movieWithCurrentTimes);
                 }
 
                 if (moviesInThisListing.Count > 0)
@@ -90,7 +91,8 @@ namespace KinoDnes.Controllers
                     listingsPlayingSinceNow.Add(new Cinema
                     {
                         CinemaName = listing.CinemaName,
-                        Movies = moviesInThisListing.OrderBy(l => l.Times.First())
+                        // Order by first time in list
+                        Movies = moviesInThisListing.OrderBy(l => l.Times.First().Time)
                     });
                 }
             }
