@@ -76,7 +76,7 @@
                     <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{hideCityName(listing.CinemaName);}}</a>
                 </h5><hr class="nadpis">
                 <div class="movie" ng-repeat="movie in listing.Movies">
-                    <a href="{{movie.Url}}">{{movie.MovieName}}</a>,
+                    <a href="{{movie.Url}}">{{movie.MovieName}}</a>
                     <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
                     <span ng-if="30 <= movie.Rating && movie.Rating < 70" class="prumer"> {{movie.Rating}} %</span>
                     <span ng-if="70 <= movie.Rating" class="dobre"> {{movie.Rating}} %</span><br>
