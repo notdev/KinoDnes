@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsfdAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsfdAPI.2016.12.07.1\lib\net461\CsfdAPI.dll</HintPath>
+      <HintPath>..\packages\CsfdAPI.2016.12.24.1\lib\net461\CsfdAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
