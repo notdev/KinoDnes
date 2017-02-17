@@ -50,8 +50,7 @@
                     };
 
                     $scope.hideCityName = function (cityAndCinema) {
-                        var cinemaName = cityAndCinema.replace(/.*?- /, "");
-                        return cinemaName;
+                        return cityAndCinema.replace(/.*?- /, "");
                     };
 
                     function displayCityList() {
@@ -71,7 +70,7 @@
                             .then(function (response) {
                                 if (response.data.length === 0) {
                                     document.getElementById("noMoviesMessage").style.display = "";
-                                };
+                                }
                                 $scope.cinemaListings = response.data;
                                 $scope.loading = false;
                                 document.getElementById("listings").style.display = "";
@@ -82,11 +81,11 @@
     </div>
     <script>
         (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
+            i['GoogleAnalyticsObject'] = r;            
             i[r] = i[r] ||
                 function () {
                     (i[r].q = i[r].q || []).push(arguments);
-                }, i[r].l = 1 * new Date();
+                }, i[r].l = 1 * new Date();            
             a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0];
             a.async = 1;
