@@ -61,8 +61,8 @@
                             });
                     }
 
-                    var district = location.pathname.replace("/", "");
-                    if (!district) {
+                    var district = location.href.substr(location.href.lastIndexOf('/') + 1);                    
+                    if (district.length == 0) {
                         displayCityList();
                     } else {
                         $http.get("https://kinodnes.azurewebsites.net/api/kino/" + district)
