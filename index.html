@@ -48,7 +48,7 @@
                     $scope.loading = true;
 
                     $scope.displayCinemas = function (cityName) {
-                        $http.get("https://kinodnes.azurewebsites.net/api/kino/" + cityName)
+                        $http.get("https://kinodnesapi.azurewebsites.net/api/kino/" + cityName)
                             .then(function (response) {
                                 if (response.data.length === 0) {
                                     document.getElementById("noMoviesMessage").style.display = "";
@@ -73,7 +73,7 @@
 
                     $scope.displayCityList = function() {
                         history.pushState(location.href, "", location.href);
-                        $http.get("https://kinodnes.azurewebsites.net/api/kino/Cities")
+                        $http.get("https://kinodnesapi.azurewebsites.net/api/kino/Cities")
                             .then(function (response) {
                                 $scope.cityList = response.data;
                                 document.getElementById("districtButtons").style.display = "";
