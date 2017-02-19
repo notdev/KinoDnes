@@ -12,5 +12,15 @@ namespace KinoDnes.Time
                 return cestTime;
             }
         }
+
+        public static TimeSpan SecondsUntilNextMidnight
+        {
+            get
+            {
+                var timeNow = CESTTimeNow;
+                var timeSpanUntilNextMidnight = timeNow.Date.AddDays(1) - timeNow;
+                return timeSpanUntilNextMidnight;
+            }
+        }
     }
 }

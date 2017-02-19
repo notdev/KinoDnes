@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Http;
@@ -25,9 +28,19 @@ namespace KinoDnes.Controllers
 
         [HttpGet]
         [Route("api/kino/Cities")]
-        public IEnumerable<string> GetCities()
+        public HttpResponseMessage GetCities()
         {
-            return ResponseCache.GetCityList();
+            return CreateCachedResponse(ResponseCache.GetCityList());
+        }
+
+        private HttpResponseMessage CreateCachedResponse(object responseData)
+        {
+            var responseMessage = Request.CreateResponse(HttpStatusCode.OK, responseData);
+            responseMessage.Headers.CacheControl = new CacheControlHeaderValue
+            {
+                MaxAge = TimeHelper.SecondsUntilNextMidnight
+            };
+            return responseMessage;
         }
 
         private string RemoveDiacritics(string originalString)
