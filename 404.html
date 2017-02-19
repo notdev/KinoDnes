@@ -64,14 +64,14 @@
                         document.getElementById("districtButtons").style.display = "none";
                         var newLocation = location.href + cityName;
                         history.pushState(newLocation, "", newLocation);
-                        this.displayCinemas(cityName);
+                        $scope.displayCinemas(cityName);
                     };
 
                     $scope.hideCityName = function (cityAndCinema) {
                         return cityAndCinema.replace(/.*?- /, "");
                     };
 
-                    function displayCityList() {
+                    $scope.displayCityList = function() {
                         history.pushState(location.href, "", location.href);
                         $http.get("https://kinodnes.azurewebsites.net/api/kino/Cities")
                             .then(function (response) {
@@ -83,9 +83,9 @@
 
                     var district = location.href.substr(location.href.lastIndexOf('/') + 1);
                     if (district.length == 0) {
-                        displayCityList();
+                        $scope.displayCityList();
                     } else {
-                        displayCinemas(district);
+                        $scope.displayCinemas(district);
                     }
                 });
 
