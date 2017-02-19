@@ -1,23 +1,26 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Kino Dnes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.10/angular.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="style.min.css">    
-    <link rel="icon" type="image/x-icon" href="favicon.ico">   
+    <link rel="stylesheet" href="style.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
-    <div ng-app="kino" ng-controller="kinoCtrl" class="container">
+    <div id="main" ng-app="kino" ng-controller="kinoCtrl" class="container">
         <div class="loadersmall" ng-show="loading"></div>
         <div id="listings" style="display: none">
             <div ng-repeat="listing in cinemaListings" class="row">
                 <div class="column" style="margin: 3% 0">
                     <h5>
                         <a href="http://www.google.com/search?q={{listing.CinemaName}}&btnI">{{hideCityName(listing.CinemaName);}}</a>
-                    </h5><hr class="nadpis">
+                    </h5>
+                    <hr class="nadpis">
                     <div class="movie" ng-repeat="movie in listing.Movies">
                         <a href="{{movie.Url}}">{{movie.MovieName}}</a>
                         <span ng-if="0 < movie.Rating && movie.Rating < 30" class="shit"> {{movie.Rating}} %</span>
@@ -44,28 +47,8 @@
                 function ($scope, $http) {
                     $scope.loading = true;
 
-                    $scope.selectCity = function (cityName) {
-                        location.href = location.href + cityName;                        
-                    };
-
-                    $scope.hideCityName = function (cityAndCinema) {
-                        return cityAndCinema.replace(/.*?- /, "");
-                    };
-
-                    function displayCityList() {
-                        $http.get("https://kinodnes.azurewebsites.net/api/kino/Cities")
-                            .then(function (response) {
-                                $scope.cityList = response.data;
-                                document.getElementById("districtButtons").style.display = "";
-                                $scope.loading = false;
-                            });
-                    }
-
-                    var district = location.href.substr(location.href.lastIndexOf('/') + 1);                    
-                    if (district.length == 0) {
-                        displayCityList();
-                    } else {
-                        $http.get("https://kinodnes.azurewebsites.net/api/kino/" + district)
+                    $scope.displayCinemas = function (cityName) {
+                        $http.get("https://kinodnes.azurewebsites.net/api/kino/" + cityName)
                             .then(function (response) {
                                 if (response.data.length === 0) {
                                     document.getElementById("noMoviesMessage").style.display = "";
@@ -74,30 +57,65 @@
                                 $scope.loading = false;
                                 document.getElementById("listings").style.display = "";
                             });
+                    };
+
+                    $scope.selectCity = function (cityName) {
+                        $scope.loading = true;
+                        document.getElementById("districtButtons").style.display = "none";
+                        var newLocation = location.href + cityName;
+                        history.pushState(newLocation, "", newLocation);
+                        this.displayCinemas(cityName);
+                    };
+
+                    $scope.hideCityName = function (cityAndCinema) {
+                        return cityAndCinema.replace(/.*?- /, "");
+                    };
+
+                    function displayCityList() {
+                        history.pushState(location.href, "", location.href);
+                        $http.get("https://kinodnes.azurewebsites.net/api/kino/Cities")
+                            .then(function (response) {
+                                $scope.cityList = response.data;
+                                document.getElementById("districtButtons").style.display = "";
+                                $scope.loading = false;
+                            });
+                    }
+
+                    var district = location.href.substr(location.href.lastIndexOf('/') + 1);
+                    if (district.length == 0) {
+                        displayCityList();
+                    } else {
+                        displayCinemas(district);
                     }
                 });
+
+            window.onpopstate = function (e) {
+                if (e.state) {
+                    location.href = e.state;                    
+                }
+            };
         </script>
     </div>
     <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;            
-            i[r] = i[r] ||
-                function () {
-                    (i[r].q = i[r].q || []).push(arguments);
-                }, i[r].l = 1 * new Date();            
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m);
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] ||
+                        function () {
+                            (i[r].q = i[r].q || []).push(arguments);
+                        }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m);
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-82408384-1', 'auto');
-        ga('send',
-        {
-            hitType: 'pageview',
-            page: location.pathname
-        });
+                ga('create', 'UA-82408384-1', 'auto');
+                ga('send',
+                    {
+                        hitType: 'pageview',
+                        page: location.pathname
+                    });
     </script>
 </body>
 </html>
