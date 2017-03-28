@@ -21,9 +21,17 @@ namespace KinoDnes.Controllers
         {
             var standardizedCity = StandardizeString(city);
 
-            var listings = ResponseCache.GetAllListings().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
+            var listings = ResponseCache.GetAllListingsToday().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
             listings = GetCinemasWithMoviesPlayingToday(listings);
             return listings;
+        }
+
+        [HttpGet]
+        [Route("api/kino/{city}/tomorrow")]
+        public List<Cinema> GetTommorow(string city)
+        {
+            var standardizedCity = StandardizeString(city);
+            return ResponseCache.GetAllListingsTommorow().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
         }
 
         [HttpGet]

@@ -13,14 +13,18 @@ namespace KinoDnes.Cache
     {
         private static readonly MemoryCache Cache = MemoryCache.Default;
 
-        public static IEnumerable<Cinema> GetAllListings()
+        public static IEnumerable<Cinema> GetAllListingsToday()
         {
-            return AddOrGetExisting("AllCinemasCacheKey", InitAllCinemaListings);
+            return AddOrGetExisting("today", InitAllCinemaListings);
+        }
+        public static IEnumerable<Cinema> GetAllListingsTommorow()
+        {
+            return AddOrGetExisting("tomorrow", InitAllCinemaListingsTommorow);
         }
 
         public static IEnumerable<string> GetCityList()
         {
-            return AddOrGetExisting("CityCacheKey", InitCityList);
+            return AddOrGetExisting("cities", InitCityList);
         }
 
         private static string GetCityName(string cityAndCinemaName)
@@ -31,22 +35,6 @@ namespace KinoDnes.Cache
                 throw new ArgumentException($"City name must be in format 'City - Cinema'. Failed to parse '{cityAndCinemaName}'");
             }
             return split[0];
-        }
-
-        private static IEnumerable<string> InitCityList()
-        {
-            var allCinemas = GetAllListings().Select(listing => listing.CinemaName);
-            var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
-
-            var topCities = new List<string> {"Praha", "Brno", "Bratislava", "Ostrava"};
-
-            var allCities = topCities.Concat(cities).Distinct();
-            return allCities;
-        }
-
-        public static Movie GetMovieDetails(string url)
-        {
-            return AddOrGetExisting(url, () => InitMovieDetails(url));
         }
 
         private static T AddOrGetExisting<T>(string key, Func<T> valueFactory)
@@ -64,15 +52,47 @@ namespace KinoDnes.Cache
             }
         }
 
+        private static IEnumerable<string> InitCityList()
+        {
+            var allCinemas = GetAllListingsToday().Select(listing => listing.CinemaName);
+            var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
+
+            var topCities = new List<string> { "Praha", "Brno", "Bratislava", "Ostrava" };
+
+            var allCities = topCities.Concat(cities).Distinct();
+            return allCities;
+        }
+
+        public static Movie GetMovieDetails(string url)
+        {
+            return AddOrGetExisting(url, () => InitMovieDetails(url));
+        }
+
         private static IEnumerable<Cinema> InitAllCinemaListings()
         {
-            var cinemaList = FileSystemCinemaCache.GetCinemaCache();
-            if (cinemaList == null)
+            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache("today");
+            if (listFromFsCache != null)
             {
-                var parser = new CsfdDataProvider();
-                cinemaList = parser.GetAllCinemas();
-                FileSystemCinemaCache.SetCinemaCache(cinemaList);
+                return listFromFsCache;
             }
+
+            var parser = new CsfdDataProvider();
+            var cinemaList = parser.GetAllCinemas().ToList();
+            FileSystemCinemaCache.SetCinemaCache(cinemaList, "today");
+            return cinemaList;
+        }
+
+       private static IEnumerable<Cinema> InitAllCinemaListingsTommorow()
+        {
+            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache("tomorrow");
+            if (listFromFsCache != null)
+            {
+                return listFromFsCache;
+            }
+
+            var parser = new CsfdDataProvider();
+            var cinemaList = parser.GetAllCinemasTommorow().ToList();
+            FileSystemCinemaCache.SetCinemaCache(cinemaList, "tomorrow");
             return cinemaList;
         }
 

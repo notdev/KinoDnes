@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CsfdAPI;
 using CsfdAPI.Model;
@@ -15,7 +14,16 @@ namespace KinoDnes.DataProvider
         public IEnumerable<Cinema> GetAllCinemas()
         {
             var csfdApi = new CsfdApi();
-            var allListings = csfdApi.GetAllCinemaListings().ToList();
+            var allListings = csfdApi.GetAllCinemaListingsToday().ToList();
+
+            var allCinemaList = allListings.Select(ApiListingToListingsWithRating);
+            return allCinemaList;
+        }
+
+        public IEnumerable<Cinema> GetAllCinemasTommorow()
+        {
+            var csfdApi = new CsfdApi();
+            var allListings = csfdApi.GetAllCinemaListingsTomorrow().ToList();
 
             var allCinemaList = allListings.Select(ApiListingToListingsWithRating);
             return allCinemaList;
