@@ -40,7 +40,7 @@ namespace KinoDnes.Cache
         private static T AddOrGetExisting<T>(string key, Func<T> valueFactory)
         {
             var newValue = new Lazy<T>(valueFactory);
-            var oldValue = Cache.AddOrGetExisting(key, newValue, DateTime.UtcNow.Date.AddDays(1)) as Lazy<T>;
+            var oldValue = Cache.AddOrGetExisting(key, newValue, CacheTimeHelper.NextCzechMidnight) as Lazy<T>;
             try
             {
                 return (oldValue ?? newValue).Value;

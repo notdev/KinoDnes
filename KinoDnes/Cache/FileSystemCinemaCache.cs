@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web;
@@ -34,7 +33,7 @@ namespace KinoDnes.Cache
                 try
                 {
                     var cinemaCache = JsonConvert.DeserializeObject<CinemaFsCache>(cinemasString);
-                    if (cinemaCache.ValidUntil > DateTime.UtcNow)
+                    if (cinemaCache.ValidUntil > CacheTimeHelper.CurrentCzTime)
                     {
                         return cinemaCache.Cinemas;
                     }
@@ -60,7 +59,7 @@ namespace KinoDnes.Cache
                 var cinemaCache = new CinemaFsCache
                 {
                     Cinemas = cinemaList,
-                    ValidUntil = DateTime.UtcNow.Date.AddDays(1)
+                    ValidUntil = CacheTimeHelper.NextCzechMidnight
                 };
 
                 var cinemaCacheString = JsonConvert.SerializeObject(cinemaCache);

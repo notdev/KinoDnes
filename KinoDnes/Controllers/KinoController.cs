@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Web.Http;
 using KinoDnes.Cache;
 using KinoDnes.Models;
-using KinoDnes.Time;
 
 namespace KinoDnes.Controllers
 {
@@ -46,7 +45,7 @@ namespace KinoDnes.Controllers
             var responseMessage = Request.CreateResponse(HttpStatusCode.OK, responseData);
             responseMessage.Headers.CacheControl = new CacheControlHeaderValue
             {
-                MaxAge = TimeHelper.SecondsUntilNextMidnight
+                MaxAge = CacheTimeHelper.SecondsUntilNextMidnight
             };
             return responseMessage;
         }
@@ -79,7 +78,7 @@ namespace KinoDnes.Controllers
 
         private List<Cinema> GetCinemasWithMoviesPlayingToday(List<Cinema> cinemas)
         {
-            var currentTime = TimeHelper.CESTTimeNow;
+            var currentTime = CacheTimeHelper.CurrentCzTime;
 
             var listingsPlayingSinceNow = new List<Cinema>();
 
