@@ -59,6 +59,7 @@ namespace KinoDnes.Cache
                 var cinemaCache = new CinemaFsCache
                 {
                     Cinemas = cinemaList,
+                    CreatedAt = CacheTimeHelper.CurrentCzTime,
                     ValidUntil = CacheTimeHelper.NextCzechMidnight
                 };
 
