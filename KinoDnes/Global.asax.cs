@@ -13,7 +13,7 @@ namespace KinoDnes
         {
             var logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "kinodnes.log");
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Async(a => a.File(logFile, LogEventLevel.Debug, fileSizeLimitBytes: 50000000))
+                .WriteTo.Async(a => a.File(logFile, LogEventLevel.Debug, fileSizeLimitBytes: 50000000, shared: true))
                 .CreateLogger();
             Log.Information("Application started");
             
