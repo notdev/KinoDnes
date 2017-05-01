@@ -24,8 +24,10 @@ namespace KinoDnes.Controllers
 
                 if (verifyToken == acceptedToken)
                 {
+                    Log.Information($"Returning challenge: {challenge}");
                     return Ok(new StringContent(challenge, Encoding.UTF8, "text/plain"));
                 }
+                Log.Warning($"Challenge verification failed. Received verify token: '{verifyToken}'. Expected: '{acceptedToken}'");
                 return Unauthorized();
             }
             catch (Exception e)
