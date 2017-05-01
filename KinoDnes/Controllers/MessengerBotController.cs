@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
@@ -12,7 +13,7 @@ namespace KinoDnes.Controllers
     {
         [HttpGet]
         [Route("webhook")]
-        public IHttpActionResult Get()
+        public HttpResponseMessage Get()
         {
             try
             {
@@ -26,10 +27,10 @@ namespace KinoDnes.Controllers
                 if (verifyToken == acceptedToken)
                 {
                     Log.Information($"Returning challenge: {challenge}");
-                    return Ok(new StringContent(challenge, Encoding.UTF8, "text/plain"));
+                    return new HttpResponseMessage(HttpStatusCode.OK){Content = new StringContent(challenge, Encoding.UTF8, "text/plain")};
                 }
                 Log.Warning($"Challenge verification failed. Received verify token: '{verifyToken}'. Expected: '{acceptedToken}'");
-                return Unauthorized();
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
             catch (Exception e)
             {
