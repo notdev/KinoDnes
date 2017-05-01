@@ -19,6 +19,7 @@ namespace KinoDnes.Controllers
                 var acceptedToken = ConfigurationManager.AppSettings["hub.verify_token"];
 
                 var querystrings = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
+                Log.Debug(string.Join(Environment.NewLine, querystrings.Select(q => $"{q.Key}:{q.Value}")));
                 var challenge = querystrings["hub.challenge"];
                 var verifyToken = querystrings["hub.verify_token"];
 
