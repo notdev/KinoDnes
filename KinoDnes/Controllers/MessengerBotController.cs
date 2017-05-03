@@ -37,7 +37,7 @@ namespace KinoDnes.Controllers
             catch (Exception e)
             {
                 Log.Error(e.ToString());
-                return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(e.Message, System.Text.Encoding.UTF8, "text/plain") };
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(e.Message, System.Text.Encoding.UTF8, "text/plain") };
             }
         }
     }
