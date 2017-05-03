@@ -1,35 +1,36 @@
 ﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
+using KinoDnes.Models;
+using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace KinoDnes.Controllers
 {
+    [Route("webhook")]
     public class MessengerBotController : ApiController
     {
+        private readonly string pageToken = ConfigurationManager.AppSettings["pageToken"];
+
         [HttpGet]
-        [Route("webhook")]
-        public HttpResponseMessage Get()
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage Get(
+            [FromUri(Name = "hub.challenge")] string challenge,
+            [FromUri(Name = "hub.verify_token")] string verifyToken)
         {
             try
             {
                 var acceptedToken = ConfigurationManager.AppSettings["hub.verify_token"];
 
-                var querystrings = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
-
-                Log.Information(Request.RequestUri.ToString());
-                Log.Information(string.Join(Environment.NewLine, querystrings.Select(q => $"{q.Key}:{q.Value}")));
-
-                var challenge = querystrings["hub.challenge"];
-                var verifyToken = querystrings["hub.verify_token"];
-
                 if (verifyToken == acceptedToken)
                 {
                     Log.Information($"Returning challenge: {challenge}");
-                    return new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(challenge, System.Text.Encoding.UTF8, "text/plain")};
+                    return new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(challenge, Encoding.UTF8, "text/plain")};
                 }
                 Log.Warning($"Challenge verification failed. Received verify token: '{verifyToken}'. Expected: '{acceptedToken}'");
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -37,7 +38,47 @@ namespace KinoDnes.Controllers
             catch (Exception e)
             {
                 Log.Error(e.ToString());
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(e.Message, System.Text.Encoding.UTF8, "text/plain") };
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError) {Content = new StringContent(e.Message, Encoding.UTF8, "text/plain")};
+            }
+        }
+
+        [HttpPost]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> ReceivePost(BotRequest data)
+        {
+            foreach (var entry in data.entry)
+            {
+                foreach (var message in entry.messaging)
+                {
+                    if (string.IsNullOrWhiteSpace(message?.message?.text))
+                    {
+                        continue;
+                    }
+
+                    var msg = "You said: " + message.message.text;
+                    await SendMessage(GetMessageTemplate(msg, message.sender.id));
+                }
+            }
+
+            return Ok();
+        }
+        
+        private JObject GetMessageTemplate(string message, string sender)
+        {
+            return JObject.FromObject(new
+            {
+                recipient = new { id = sender },
+                message = new { text = message }
+            });
+        }
+
+        private async Task SendMessage(JObject json)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var jsonString = json.ToString();
+                await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(jsonString, Encoding.UTF8, "application/json"));
             }
         }
     }
