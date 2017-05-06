@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using KinoDnes.Models;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace KinoDnes.Controllers
@@ -56,29 +56,32 @@ namespace KinoDnes.Controllers
                     }
 
                     var msg = "You said: " + message.message.text;
-                    await SendMessage(GetMessageTemplate(msg, message.sender.id));
+                    await SendMessage(new FacebookMessage(msg, message.sender.id));
                 }
             }
 
             return Ok();
         }
-        
-        private JObject GetMessageTemplate(string message, string sender)
+
+        private class FacebookMessage
         {
-            return JObject.FromObject(new
+            public string Message { get; }
+            public string Sender { get; }
+
+            public FacebookMessage(string message, string sender)
             {
-                recipient = new { id = sender },
-                message = new { text = message }
-            });
+                Message = message;
+                Sender = sender;
+            }
         }
 
-        private async Task SendMessage(JObject json)
+        private async Task SendMessage(FacebookMessage message)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var jsonString = json.ToString();
-                await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(jsonString, Encoding.UTF8, "application/json"));
+                var messageString = JsonConvert.SerializeObject(message);
+                await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(messageString, Encoding.UTF8, "application/json"));
             }
         }
     }
