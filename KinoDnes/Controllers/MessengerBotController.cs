@@ -13,7 +13,7 @@ using Serilog;
 namespace KinoDnes.Controllers
 {
     [Route("webhook")]
-    public partial class MessengerBotController : ApiController
+    public class MessengerBotController : ApiController
     {
         private readonly string pageToken = ConfigurationManager.AppSettings["pageToken"];
 
@@ -58,7 +58,11 @@ namespace KinoDnes.Controllers
                         }
 
                         var msg = "You said: " + message.message.text;
-                        await SendMessage(new FacebookMessage(msg, message.sender.id));
+                        await SendMessage(new BotMessageResponse
+                        {
+                            message = new MessageResponse { text = msg},
+                            recipient = new BotUser { id = message.sender.id }
+                        });
                     }
                 }
 
@@ -71,7 +75,7 @@ namespace KinoDnes.Controllers
             }
         }
 
-        private async Task SendMessage(FacebookMessage message)
+        private async Task SendMessage(BotMessageResponse message)
         {
             using (HttpClient client = new HttpClient())
             {

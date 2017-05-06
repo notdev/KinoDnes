@@ -94,7 +94,6 @@
     <Compile Include="Cache\CacheTimeHelper.cs" />
     <Compile Include="Cache\FileSystemCinemaCache.cs" />
     <Compile Include="Cache\ResponseCache.cs" />
-    <Compile Include="Models\FacebookMessage.cs" />
     <Compile Include="Controllers\KinoController.cs" />
     <Compile Include="Controllers\MessengerBotController.cs" />
     <Compile Include="Global.asax.cs">
