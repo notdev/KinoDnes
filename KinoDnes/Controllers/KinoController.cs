@@ -20,8 +20,8 @@ namespace KinoDnes.Controllers
         {
             var standardizedCity = StandardizeString(city);
 
-            var listings = ResponseCache.GetAllListingsToday().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
-            listings = GetCinemasWithMoviesPlayingToday(listings);
+            var listings = ResponseCache.GetAllListingsToday()
+                .Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
             return listings;
         }
 
@@ -30,7 +30,9 @@ namespace KinoDnes.Controllers
         public List<Cinema> GetTommorow(string city)
         {
             var standardizedCity = StandardizeString(city);
-            return ResponseCache.GetAllListingsTommorow().Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
+
+            return ResponseCache.GetAllListingsTommorow()
+                .Where(c => StandardizeString(c.CinemaName).Contains(standardizedCity)).ToList();
         }
 
         [HttpGet]
@@ -76,47 +78,6 @@ namespace KinoDnes.Controllers
             return standardizedName;
         }
 
-        private List<Cinema> GetCinemasWithMoviesPlayingToday(List<Cinema> cinemas)
-        {
-            var currentTime = CacheTimeHelper.CurrentCzTime;
-
-            var listingsPlayingSinceNow = new List<Cinema>();
-
-            foreach (var listing in cinemas)
-            {
-                var moviesInThisListing = new List<Movie>();
-
-                foreach (var movie in listing.Movies)
-                {
-                    var currentTimes = movie.Times.Where(t => t.Time > currentTime).ToList();
-
-                    if (!currentTimes.Any())
-                    {
-                        continue;
-                    }
-
-                    var movieWithCurrentTimes = new Movie
-                    {
-                        MovieName = movie.MovieName,
-                        Rating = movie.Rating,
-                        Url = movie.Url,
-                        Times = currentTimes
-                    };
-
-                    moviesInThisListing.Add(movieWithCurrentTimes);
-                }
-
-                if (moviesInThisListing.Count > 0)
-                {
-                    listingsPlayingSinceNow.Add(new Cinema
-                    {
-                        CinemaName = listing.CinemaName,
-                        // Order by first time in list
-                        Movies = moviesInThisListing.OrderBy(l => l.Times.First().Time)
-                    });
-                }
-            }
-            return listingsPlayingSinceNow;
-        }
+        
     }
 }

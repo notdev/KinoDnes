@@ -14,19 +14,9 @@ namespace KinoDnes.DataProvider
         public IEnumerable<Cinema> GetAllCinemas()
         {
             var csfdApi = new CsfdApi();
-            var allListings = csfdApi.GetAllCinemaListingsToday().ToList();
+            var allListings = csfdApi.GetAllCinemaListings();
 
-            var allCinemaList = allListings.Select(ApiListingToListingsWithRating);
-            return allCinemaList;
-        }
-
-        public IEnumerable<Cinema> GetAllCinemasTommorow()
-        {
-            var csfdApi = new CsfdApi();
-            var allListings = csfdApi.GetAllCinemaListingsTomorrow().ToList();
-
-            var allCinemaList = allListings.Select(ApiListingToListingsWithRating);
-            return allCinemaList;
+            return allListings.Select(ApiListingToListingsWithRating);
         }
 
         private Cinema ApiListingToListingsWithRating(CsfdAPI.Model.Cinema cinemaListing)

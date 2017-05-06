@@ -15,11 +15,66 @@ namespace KinoDnes.Cache
 
         public static IEnumerable<Cinema> GetAllListingsToday()
         {
-            return AddOrGetExisting("today", InitAllCinemaListings);
+            return AddOrGetExisting("today", () => GetCinemasWithMoviesPlayingAtDate(GetAllListings(), CacheTimeHelper.CurrentCzTime), DateTime.Now.AddMinutes(10));
         }
+
         public static IEnumerable<Cinema> GetAllListingsTommorow()
         {
-            return AddOrGetExisting("tomorrow", InitAllCinemaListingsTommorow);
+            return GetAllListingsForDate(CacheTimeHelper.NextCzechMidnight);
+        }
+
+        public static IEnumerable<Cinema> GetAllListingsForDate(DateTime date)
+        {
+            var key = date.ToString("ddMMyyyy");
+            return AddOrGetExisting(key, () => GetCinemasWithMoviesPlayingAtDate(GetAllListings(), date));
+        }
+
+        private static IEnumerable<Cinema> GetCinemasWithMoviesPlayingAtDate(IEnumerable<Cinema> cinemas, DateTime date)
+        {
+            var listingsPlayingSinceDate = new List<Cinema>();
+            
+            var endOfDay = date.Date.AddDays(1);
+
+            foreach (var listing in cinemas)
+            {
+                var moviesInThisListing = new List<Models.Movie>();
+
+                foreach (var movie in listing.Movies)
+                {
+                    var currentTimes = movie.Times.Where(t => t.Time > date && t.Time < endOfDay).ToList();
+
+                    if (!currentTimes.Any())
+                    {
+                        continue;
+                    }
+
+                    var movieWithCurrentTimes = new Models.Movie
+                    {
+                        MovieName = movie.MovieName,
+                        Rating = movie.Rating,
+                        Url = movie.Url,
+                        Times = currentTimes
+                    };
+
+                    moviesInThisListing.Add(movieWithCurrentTimes);
+                }
+
+                if (moviesInThisListing.Count > 0)
+                {
+                    listingsPlayingSinceDate.Add(new Cinema
+                    {
+                        CinemaName = listing.CinemaName,
+                        // Order by first time in list
+                        Movies = moviesInThisListing.OrderBy(l => l.Times.First().Time)
+                    });
+                }
+            }
+            return listingsPlayingSinceDate;
+        }
+
+        public static IEnumerable<Cinema> GetAllListings()
+        {
+            return AddOrGetExisting("all", InitAllCinemaListings);
         }
 
         public static IEnumerable<string> GetCityList()
@@ -37,10 +92,10 @@ namespace KinoDnes.Cache
             return split[0];
         }
 
-        private static T AddOrGetExisting<T>(string key, Func<T> valueFactory)
+        private static T AddOrGetExisting<T>(string key, Func<T> valueFactory, DateTimeOffset validUntil)
         {
             var newValue = new Lazy<T>(valueFactory);
-            var oldValue = Cache.AddOrGetExisting(key, newValue, CacheTimeHelper.NextCzechMidnight) as Lazy<T>;
+            var oldValue = Cache.AddOrGetExisting(key, newValue, validUntil) as Lazy<T>;
             try
             {
                 return (oldValue ?? newValue).Value;
@@ -52,53 +107,41 @@ namespace KinoDnes.Cache
             }
         }
 
+        private static T AddOrGetExisting<T>(string key, Func<T> valueFactory)
+        {
+            return AddOrGetExisting(key, valueFactory, CacheTimeHelper.NextCzechMidnight);
+        }
+
         private static IEnumerable<string> InitCityList()
         {
             var allCinemas = GetAllListingsToday().Select(listing => listing.CinemaName);
             var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
 
-            var topCities = new List<string> { "Praha", "Brno", "Bratislava", "Ostrava" };
+            var topCities = new List<string> {"Praha", "Brno", "Bratislava", "Ostrava"};
 
             var allCities = topCities.Concat(cities).Distinct();
             return allCities;
         }
 
+        private static readonly CsfdApi CsfdApi = new CsfdApi();
+
         public static Movie GetMovieDetails(string url)
         {
-            return AddOrGetExisting(url, () => InitMovieDetails(url));
+            return AddOrGetExisting(url, () => CsfdApi.GetMovie(url));
         }
 
         private static IEnumerable<Cinema> InitAllCinemaListings()
         {
-            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache("today");
+            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache();
             if (listFromFsCache != null)
             {
                 return listFromFsCache;
             }
 
-            var parser = new CsfdDataProvider();
-            var cinemaList = parser.GetAllCinemas().ToList();
-            FileSystemCinemaCache.SetCinemaCache(cinemaList, "today");
+            var csfdDataProvider = new CsfdDataProvider();
+            var cinemaList = csfdDataProvider.GetAllCinemas().ToList();
+            FileSystemCinemaCache.SetCinemaCache(cinemaList);
             return cinemaList;
-        }
-
-       private static IEnumerable<Cinema> InitAllCinemaListingsTommorow()
-        {
-            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache("tomorrow");
-            if (listFromFsCache != null)
-            {
-                return listFromFsCache;
-            }
-
-            var parser = new CsfdDataProvider();
-            var cinemaList = parser.GetAllCinemasTommorow().ToList();
-            FileSystemCinemaCache.SetCinemaCache(cinemaList, "tomorrow");
-            return cinemaList;
-        }
-
-        private static Movie InitMovieDetails(string url)
-        {
-            return new CsfdApi().GetMovie(url);
         }
     }
 }
