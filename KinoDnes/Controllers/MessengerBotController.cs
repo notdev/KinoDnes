@@ -13,7 +13,7 @@ using Serilog;
 namespace KinoDnes.Controllers
 {
     [Route("webhook")]
-    public class MessengerBotController : ApiController
+    public partial class MessengerBotController : ApiController
     {
         private readonly string pageToken = ConfigurationManager.AppSettings["pageToken"];
 
@@ -61,18 +61,6 @@ namespace KinoDnes.Controllers
             }
 
             return Ok();
-        }
-
-        private class FacebookMessage
-        {
-            public string Message { get; }
-            public string Sender { get; }
-
-            public FacebookMessage(string message, string sender)
-            {
-                Message = message;
-                Sender = sender;
-            }
         }
 
         private async Task SendMessage(FacebookMessage message)
