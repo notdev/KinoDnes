@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using KinoDnes.Cache;
 using KinoDnes.Models;
 using Newtonsoft.Json;
 using Serilog;
@@ -57,10 +60,10 @@ namespace KinoDnes.Controllers
                             continue;
                         }
 
-                        var msg = "You said: " + message.message.text;
+                        var response = GetResponse(message.message.text);
                         await SendMessage(new BotMessageResponse
                         {
-                            message = new MessageResponse { text = msg},
+                            message = new MessageResponse { text = response},
                             recipient = new BotUser { id = message.sender.id }
                         });
                     }
@@ -82,6 +85,31 @@ namespace KinoDnes.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var messageString = JsonConvert.SerializeObject(message);
                 await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(messageString, Encoding.UTF8, "application/json"));
+            }
+        }
+
+        private readonly List<string> allowedDates = new List<string> {"dnes", "zitra"};
+        private const string UnknownCommand = "Zadejte mesto a den. Priklad: 'Brno dnes', 'Praha zitra'";
+
+        public string GetResponse(string request)
+        {
+            var requestSplit = request.Split(' ');
+            var when = requestSplit.Last().ToLower();
+            if (requestSplit.Length < 2 || !allowedDates.Contains(when))
+            {
+                return UnknownCommand;
+            }
+
+            var city = string.Join(" ", requestSplit.Take(requestSplit.Length - 1));
+
+            switch (when)
+            {
+                case "dnes":
+                    return ListingFormatter.FormatString(ResponseCache.GetAllListingsToday(city));
+                case "zitra":
+                    return ListingFormatter.FormatString(ResponseCache.GetAllListingsTommorow(city));
+                default:
+                    return UnknownCommand;
             }
         }
     }

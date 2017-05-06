@@ -13,12 +13,32 @@ namespace KinoDnes.Cache
     {
         private static readonly MemoryCache Cache = MemoryCache.Default;
 
-        public static IEnumerable<Cinema> GetAllListingsToday()
+        public static IEnumerable<Cinema> GetAllListingsToday(string city)
+        {
+            var standardizedCity = StringNormalizer.StandardizeString(city);
+            return AddOrGetExisting($"today{city}", () =>
+            {
+                return GetAllListingsToday()
+                    .Where(c => StringNormalizer.StandardizeString(c.CinemaName).Contains(standardizedCity));
+            }, DateTime.Now.AddMinutes(10));
+        }
+
+        public static IEnumerable<Cinema> GetAllListingsTommorow(string city)
+        {
+            var standardizedCity = StringNormalizer.StandardizeString(city);
+            return AddOrGetExisting($"today{city}", () =>
+            {
+                return GetAllListingsTommorow()
+                    .Where(c => StringNormalizer.StandardizeString(c.CinemaName).Contains(standardizedCity));
+            });
+        }
+
+        private static IEnumerable<Cinema> GetAllListingsToday()
         {
             return AddOrGetExisting("today", () => GetCinemasWithMoviesPlayingAtDate(GetAllListings(), CacheTimeHelper.CurrentCzTime), DateTime.Now.AddMinutes(10));
         }
 
-        public static IEnumerable<Cinema> GetAllListingsTommorow()
+        private static IEnumerable<Cinema> GetAllListingsTommorow()
         {
             return GetAllListingsForDate(CacheTimeHelper.NextCzechMidnight);
         }

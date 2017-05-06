@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace KinoDnes.Models
 {
@@ -6,5 +9,21 @@ namespace KinoDnes.Models
     {
         public string CinemaName { get; set; }
         public IEnumerable<Movie> Movies { get; set; }
+
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            builder.Append(CinemaName + Environment.NewLine);
+            foreach (var movie in Movies)
+            {
+                builder.Append($"{movie.MovieName} {movie.Rating}% ");
+                foreach (var time in movie.Times)
+                {
+                    builder.Append($"{time:HH:mm} {string.Join(" ", time.Flags)}");
+                }
+                builder.Append(Environment.NewLine);
+            }
+            return builder.ToString();
+        }
     }
 }
