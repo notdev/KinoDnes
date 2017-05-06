@@ -19,7 +19,7 @@ namespace KinoDnes.Models
                 builder.Append($"{movie.MovieName} {movie.Rating}% ");
                 foreach (var time in movie.Times)
                 {
-                    builder.Append($"{time.Time:HH:mm} {string.Join(" ", time.Flags.ToList())}");
+                    builder.Append($"{time.Time:HH:mm} {string.Join(" ", time.Flags.ToList())} ");
                 }
                 builder.Append(Environment.NewLine);
             }
