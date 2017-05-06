@@ -46,21 +46,29 @@ namespace KinoDnes.Controllers
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> ReceivePost(BotRequest data)
         {
-            foreach (var entry in data.entry)
+            try
             {
-                foreach (var message in entry.messaging)
+                foreach (var entry in data.entry)
                 {
-                    if (string.IsNullOrWhiteSpace(message?.message?.text))
+                    foreach (var message in entry.messaging)
                     {
-                        continue;
+                        if (string.IsNullOrWhiteSpace(message?.message?.text))
+                        {
+                            continue;
+                        }
+
+                        var msg = "You said: " + message.message.text;
+                        await SendMessage(new FacebookMessage(msg, message.sender.id));
                     }
-
-                    var msg = "You said: " + message.message.text;
-                    await SendMessage(new FacebookMessage(msg, message.sender.id));
                 }
-            }
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
         }
 
         private async Task SendMessage(FacebookMessage message)
