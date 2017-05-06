@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using KinoDnes.Controllers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KinoDnesTest
 {
@@ -6,8 +7,18 @@ namespace KinoDnesTest
     public class Tests
     {
         [TestMethod]
-        public void Test()
+        public void Test_UnknownCommand()
         {
+            var controller = new MessengerBotController();
+            var response = controller.GetResponse("test");
+            Assert.IsTrue(response.Contains("Zadejte"));
+        }
+
+        [TestMethod]
+        public void Test_KnownCommand()
+        {
+            var controller = new MessengerBotController();
+            var response = controller.GetResponse("Brno zitra");
         }
     }
 }
