@@ -11,19 +11,17 @@ namespace KinoDnes.Cache
     {
         private static readonly object LockObject = new object();
 
-        private static string GetPathForKey(string key)
-        {
-            return Path.Combine(HttpRuntime.AppDomainAppPath, key);
-        }
+        private static string CachePath => Path.Combine(HttpRuntime.AppDomainAppPath, "cinemacache");
+        
 
-        public static IEnumerable<Cinema> GetCinemaCache(string key)
+        public static IEnumerable<Cinema> GetCinemaCache()
         {
             lock (LockObject)
             {
                 string cinemasString;
                 try
                 {
-                    cinemasString = File.ReadAllText(GetPathForKey(key));
+                    cinemasString = File.ReadAllText(CachePath);
                 }
                 catch (FileNotFoundException)
                 {
@@ -52,7 +50,7 @@ namespace KinoDnes.Cache
             return null;
         }
 
-        public static void SetCinemaCache(IEnumerable<Cinema> cinemaList, string key)
+        public static void SetCinemaCache(IEnumerable<Cinema> cinemaList)
         {
             lock (LockObject)
             {
@@ -64,7 +62,7 @@ namespace KinoDnes.Cache
                 };
 
                 var cinemaCacheString = JsonConvert.SerializeObject(cinemaCache);
-                File.WriteAllText(GetPathForKey(key), cinemaCacheString, Encoding.UTF8);
+                File.WriteAllText(CachePath, cinemaCacheString, Encoding.UTF8);
             }
         }
     }
