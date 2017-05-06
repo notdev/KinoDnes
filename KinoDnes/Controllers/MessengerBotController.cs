@@ -59,17 +59,18 @@ namespace KinoDnes.Controllers
                         {
                             continue;
                         }
-
-                        var response = GetResponse(message.message.text);
-                        var msg = response.Substring(0, Math.Min(response.Length, 600));
-                        await SendMessage(new BotMessageResponse
+                        await Task.Run(async () =>  
                         {
-                            message = new MessageResponse { text = msg },
-                            recipient = new BotUser { id = message.sender.id }
-                        });
+                            var response = GetResponse(message.message.text);
+                            var msg = response.Substring(0, Math.Min(response.Length, 600));
+                            await SendMessage(new BotMessageResponse
+                            {
+                                message = new MessageResponse {text = msg},
+                                recipient = new BotUser {id = message.sender.id}
+                            });
+                        }).ConfigureAwait(false);
                     }
                 }
-
                 return Ok();
             }
             catch (Exception e)
