@@ -19,6 +19,8 @@ namespace KinoDnesTest
         {
             var controller = new MessengerBotController();
             var response = controller.GetResponse("Brno zitra");
+            // More than 300 is not default message
+            Assert.IsTrue(response.Length > 300);
         }
     }
 }
