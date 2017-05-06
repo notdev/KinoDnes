@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Web;
 using KinoDnes.Models;
 using Newtonsoft.Json;
 
@@ -11,8 +10,7 @@ namespace KinoDnes.Cache
     {
         private static readonly object LockObject = new object();
 
-        private static string CachePath => Path.Combine(HttpRuntime.AppDomainAppPath, "cinemacache");
-        
+        private static string CachePath => Path.Combine(Path.GetTempPath(), "cinemacache");
 
         public static IEnumerable<Cinema> GetCinemaCache()
         {
