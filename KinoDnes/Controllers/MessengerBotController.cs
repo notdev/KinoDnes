@@ -61,7 +61,7 @@ namespace KinoDnes.Controllers
                             continue;
                         }
                         
-                        RespondToMessage(message.message.text, message.sender.id);
+                        Task.Run(() => RespondToMessage(message.message.text, message.sender.id));
                     }
                 }
                 return Ok();
@@ -82,7 +82,8 @@ namespace KinoDnes.Controllers
                 message = new MessageResponse { text = msg },
                 recipient = new BotUser { id = senderId }
             });
-            Log.Debug(facebookResponse.Content.ReadAsStringAsync().Result);
+            var sendResponse = await facebookResponse.Content.ReadAsStringAsync();
+            Log.Debug(sendResponse);
         }
 
         private async Task<HttpResponseMessage> SendMessage(BotMessageResponse message)
