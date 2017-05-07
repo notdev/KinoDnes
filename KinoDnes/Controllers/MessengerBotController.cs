@@ -12,6 +12,7 @@ using KinoDnes.Cache;
 using KinoDnes.Models;
 using Newtonsoft.Json;
 using Serilog;
+#pragma warning disable 4014
 
 namespace KinoDnes.Controllers
 {
@@ -47,7 +48,7 @@ namespace KinoDnes.Controllers
 
         [HttpPost]
         [AcceptVerbs("POST")]
-        public async Task<IHttpActionResult> ReceivePost(BotRequest data)
+        public IHttpActionResult ReceivePost(BotRequest data)
         {
             try
             {
@@ -59,16 +60,8 @@ namespace KinoDnes.Controllers
                         {
                             continue;
                         }
-                        await Task.Run(async () =>  
-                        {
-                            var response = GetResponse(message.message.text);
-                            var msg = response.Substring(0, Math.Min(response.Length, 600));
-                            await SendMessage(new BotMessageResponse
-                            {
-                                message = new MessageResponse {text = msg},
-                                recipient = new BotUser {id = message.sender.id}
-                            });
-                        }).ConfigureAwait(false);
+                        
+                        RespondToMessage(message.message.text, message.sender.id);
                     }
                 }
                 return Ok();
@@ -80,13 +73,25 @@ namespace KinoDnes.Controllers
             }
         }
 
-        private async Task SendMessage(BotMessageResponse message)
+        private async Task RespondToMessage(string request, string senderId)
+        {
+            var response = GetResponse(request);
+            var msg = response.Substring(0, Math.Min(response.Length, 600));
+            var facebookResponse = await SendMessage(new BotMessageResponse
+            {
+                message = new MessageResponse { text = msg },
+                recipient = new BotUser { id = senderId }
+            });
+            Log.Debug(facebookResponse.Content.ReadAsStringAsync().Result);
+        }
+
+        private async Task<HttpResponseMessage> SendMessage(BotMessageResponse message)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var messageString = JsonConvert.SerializeObject(message);
-                await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(messageString, Encoding.UTF8, "application/json"));
+                return await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={pageToken}", new StringContent(messageString, Encoding.UTF8, "application/json"));
             }
         }
 
