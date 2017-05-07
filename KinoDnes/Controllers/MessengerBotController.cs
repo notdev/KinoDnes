@@ -119,6 +119,7 @@ namespace KinoDnes.Controllers
             if (requestSplit.Length < 2 || !allowedDates.Contains(when))
             {
                 yield return UnknownCommand;
+                yield break;
             }
 
             var city = string.Join(" ", requestSplit.Take(requestSplit.Length - 1));
