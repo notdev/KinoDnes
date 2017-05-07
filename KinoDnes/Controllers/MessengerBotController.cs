@@ -76,14 +76,28 @@ namespace KinoDnes.Controllers
         private async Task RespondToMessage(string request, string senderId)
         {
             var response = GetResponse(request);
-            var msg = response.Substring(0, Math.Min(response.Length, 600));
-            var facebookResponse = await SendMessage(new BotMessageResponse
+            IEnumerable<string> splitResponses = SplitResponse(response);
+            
+            foreach (var message in splitResponses)
             {
-                message = new MessageResponse { text = msg },
-                recipient = new BotUser { id = senderId }
-            });
-            var sendResponse = await facebookResponse.Content.ReadAsStringAsync();
-            Log.Debug(sendResponse);
+                var facebookResponse = await SendMessage(new BotMessageResponse
+                {
+                    message = new MessageResponse { text = message },
+                    recipient = new BotUser { id = senderId }
+                });
+                var sendResponse = await facebookResponse.Content.ReadAsStringAsync();
+                Log.Debug(sendResponse);
+            }
+        }
+
+        private IEnumerable<string> SplitResponse(string response)
+        {
+            const int maxMessageSize = 640;
+            
+            for (int index = 0; index < response.Length; index += maxMessageSize)
+            {
+                yield return response.Substring(index, Math.Min(maxMessageSize, response.Length - index));
+            }
         }
 
         private async Task<HttpResponseMessage> SendMessage(BotMessageResponse message)
