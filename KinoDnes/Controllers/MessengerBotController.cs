@@ -75,10 +75,9 @@ namespace KinoDnes.Controllers
 
         private async Task RespondToMessage(string request, string senderId)
         {
-            var response = GetResponse(request);
-            IEnumerable<string> splitResponses = SplitResponse(response);
+            var responses = GetResponses(request);
             
-            foreach (var message in splitResponses)
+            foreach (var message in responses)
             {
                 var facebookResponse = await SendMessage(new BotMessageResponse
                 {
@@ -113,13 +112,13 @@ namespace KinoDnes.Controllers
         private readonly List<string> allowedDates = new List<string> {"dnes", "zitra"};
         private const string UnknownCommand = "Zadejte mesto a den. Priklad: 'Brno dnes', 'Praha zitra'";
 
-        public string GetResponse(string request)
+        public IEnumerable<string> GetResponses(string request)
         {
             var requestSplit = request.Split(' ');
             var when = requestSplit.Last().ToLower();
             if (requestSplit.Length < 2 || !allowedDates.Contains(when))
             {
-                return UnknownCommand;
+                yield return UnknownCommand;
             }
 
             var city = string.Join(" ", requestSplit.Take(requestSplit.Length - 1));
@@ -127,11 +126,31 @@ namespace KinoDnes.Controllers
             switch (when)
             {
                 case "dnes":
-                    return ListingFormatter.FormatString(ResponseCache.GetAllListingsToday(city));
+                    var responsesToday = ResponseCache.GetAllListingsToday(city);
+                    
+                    foreach (var cinema in responsesToday)
+                    {
+                        var split = SplitResponse(cinema.ToString());
+                        foreach (var s in split)
+                        {
+                            yield return s;
+                        }
+                    }
+                    break;
                 case "zitra":
-                    return ListingFormatter.FormatString(ResponseCache.GetAllListingsTommorow(city));
+                    var responsesTommorow = ResponseCache.GetAllListingsTommorow(city);
+                    foreach (var cinema in responsesTommorow)
+                    {
+                        var split = SplitResponse(cinema.ToString());
+                        foreach (var s in split)
+                        {
+                            yield return s;
+                        }
+                    }
+                    break;
                 default:
-                    return UnknownCommand;
+                    yield return UnknownCommand;
+                    break;
             }
         }
     }

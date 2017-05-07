@@ -1,4 +1,5 @@
-﻿using KinoDnes.Controllers;
+﻿using System.Linq;
+using KinoDnes.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KinoDnesTest
@@ -10,17 +11,17 @@ namespace KinoDnesTest
         public void Test_UnknownCommand()
         {
             var controller = new MessengerBotController();
-            var response = controller.GetResponse("test");
-            Assert.IsTrue(response.Contains("Zadejte"));
+            var response = controller.GetResponses("test").ToList();
+            Assert.IsTrue(response.Any(r => r.Contains("Zadejte")));
         }
 
         [TestMethod]
         public void Test_KnownCommand()
         {
             var controller = new MessengerBotController();
-            var response = controller.GetResponse("Brno zitra");
+            var response = controller.GetResponses("Brno zitra").ToList();
             // More than 300 is not default message
-            Assert.IsTrue(response.Length > 300);
+            Assert.IsTrue(response.Any(r => r.Length > 300));
         }
     }
 }
