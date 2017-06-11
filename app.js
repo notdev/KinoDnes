@@ -3,8 +3,25 @@ app.controller('kinoCtrl',
     function ($scope, $http) {
         $scope.loading = true;
 
-        $scope.displayCinemas = function (cityName) {
-            $http.get("https://kinodnesapi.azurewebsites.net/api/kino/" + cityName)
+        $scope.getDateString = function (date) {
+            if (date === "zitra") {
+                date = new Date();
+                date.setDate(date.getDate() + 1);
+            } else {
+                date = new Date(date);
+            }
+
+            var datestring = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            return datestring;
+        }
+
+        $scope.displayCinemas = function (cityName, date) {
+            $url = "https://kinodnesapi.azurewebsites.net/api/kino/" + cityName;
+            if (typeof date !== "undefined") {
+                $url += "/" + $scope.getDateString(date);
+            };
+
+            $http.get($url)
                 .then(function (response) {
                     if (response.data.length === 0) {
                         document.getElementById("noMoviesMessage").style.display = "";
@@ -37,11 +54,13 @@ app.controller('kinoCtrl',
                 });
         }
 
-        var district = location.href.substr(location.href.lastIndexOf('/') + 1);
-        if (district.length == 0) {
+        if (location.pathname === "/") {
             $scope.displayCityList();
         } else {
-            $scope.displayCinemas(district);
+            var arguments = location.pathname.split("/");
+            city = arguments[1];
+            date = arguments[2];
+            $scope.displayCinemas(city, date);
         }
     });
 
