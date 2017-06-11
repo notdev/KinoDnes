@@ -33,6 +33,16 @@ namespace KinoDnes.Cache
             });
         }
 
+        public static IEnumerable<Cinema> GetListingsForDate(string city, DateTime date)
+        {
+            var standardizedCity = StringNormalizer.StandardizeString(city);
+            return AddOrGetExisting($"{date.Date}{city}", () =>
+            {
+                return GetAllListingsForDate(date)
+                    .Where(c => StringNormalizer.StandardizeString(c.CinemaName).Contains(standardizedCity));
+            });
+        }
+
         private static IEnumerable<Cinema> GetAllListingsToday()
         {
             return AddOrGetExisting("today", () => GetCinemasWithMoviesPlayingAtDate(GetAllListings(), CacheTimeHelper.CurrentCzTime), DateTime.Now.AddMinutes(10));

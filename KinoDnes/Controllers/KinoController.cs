@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,6 +23,13 @@ namespace KinoDnes.Controllers
         public IEnumerable<Cinema> GetTommorow(string city)
         {
             return ResponseCache.GetAllListingsTommorow(city);
+        }
+
+        [HttpGet]
+        [Route("api/kino/{city}/{date}")]
+        public IEnumerable<Cinema> GetTommorow(string city, DateTime date)
+        {
+            return ResponseCache.GetListingsForDate(city, date);
         }
 
         [HttpGet]
