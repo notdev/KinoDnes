@@ -1149,3 +1149,11 @@ h5 {
         transform: rotate(360deg);
     }
 }
+
+.float_center {
+  float: right;
+
+  position: relative;
+  left: -50%;
+  text-align: left;
+}

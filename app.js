@@ -3,32 +3,55 @@ app.controller('kinoCtrl',
     function ($scope, $http) {
         $scope.loading = true;
 
-        $scope.getDateString = function (date) {
-            if (date === "zitra") {
-                date = new Date();
-                date.setDate(date.getDate() + 1);
-            } else {
-                date = new Date(date);
-            }
-
-            var datestring = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-            return datestring;
+        $scope.addDaysToDate = function (date, daysToAdd) {
+            var addedDate = new Date(date);
+            addedDate.setDate(addedDate.getDate() + daysToAdd);
+            return addedDate;
         }
 
-        $scope.displayCinemas = function (cityName, date) {
+        $scope.getDateString = function (date) {
+            return date.toISOString().substr(0, 10);
+        }
+
+        $scope.getDateFromUrl = function (urlDate) {
+            if (typeof urlDate === "undefined") {
+                return new Date();
+            }
+            if (urlDate.toLowerCase() === "zitra") {
+                return $scope.addDaysToDate(new Date(), 1);
+            }
+            return new Date(urlDate);
+        }
+
+        $scope.displayCinemas = function (cityName, urlDate) {
             $url = "https://kinodnesapi.azurewebsites.net/api/kino/" + cityName;
-            if (typeof date !== "undefined") {
-                $url += "/" + $scope.getDateString(date);
-            };
+            var date = $scope.getDateFromUrl(urlDate);
+            // Today
+            if ($scope.getDateString(date) == $scope.getDateString(new Date())) {
+                $scope.previous = "";
+                $scope.current = $scope.getDateString(date);
+                $scope.next = $scope.getDateString($scope.addDaysToDate(date, 1));
+                var todayLocation = location.origin + "/" + cityName;
+                history.pushState(todayLocation, "", todayLocation);
+            } else {
+                $scope.current = $scope.getDateString(date);
+                $scope.previous = $scope.getDateString($scope.addDaysToDate(date, -1));
+                $scope.next = $scope.getDateString($scope.addDaysToDate(date, 1));
+                $url += "/" + $scope.current;
+                var newLocation = location.origin + "/" + cityName + "/" + $scope.current;
+                history.pushState(newLocation, "", newLocation);
+            }
 
             $http.get($url)
                 .then(function (response) {
-                    if (response.data.length === 0) {
-                        document.getElementById("noMoviesMessage").style.display = "";
-                    }
-                    $scope.cinemaListings = response.data;
                     $scope.loading = false;
                     document.getElementById("listings").style.display = "";
+                    if (response.data.length === 0) {
+                        document.getElementById("noMoviesMessage").style.display = "";
+                    } else {
+                        $scope.cinemaListings = response.data;                        
+                        document.getElementById("noMoviesMessage").style.display = "none";
+                    }
                 });
         };
 
@@ -58,9 +81,9 @@ app.controller('kinoCtrl',
             $scope.displayCityList();
         } else {
             var arguments = location.pathname.split("/");
-            city = arguments[1];
-            date = arguments[2];
-            $scope.displayCinemas(city, date);
+            $scope.city = arguments[1];
+            $scope.date = arguments[2];
+            $scope.displayCinemas($scope.city, $scope.date);
         }
     });
 
