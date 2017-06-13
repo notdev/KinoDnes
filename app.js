@@ -24,6 +24,7 @@ app.controller('kinoCtrl',
         }
 
         $scope.displayCinemas = function (cityName, urlDate) {
+            $scope.city = cityName;
             $url = "https://kinodnesapi.azurewebsites.net/api/kino/" + cityName;
             var date = $scope.getDateFromUrl(urlDate);
             // Today
@@ -55,12 +56,10 @@ app.controller('kinoCtrl',
                 });
         };
 
-        $scope.selectCity = function (cityName) {
-            $scope.city = cityName;
+        $scope.selectCity = function (cityName) {            
             $scope.loading = true;
+            $scope.city = cityName;
             document.getElementById("districtButtons").style.display = "none";
-            var newLocation = location.href + cityName;
-            history.pushState(newLocation, "", newLocation);
             $scope.displayCinemas(cityName);
         };
 
@@ -68,8 +67,7 @@ app.controller('kinoCtrl',
             return cityAndCinema.replace(/.*?- /, "");
         };
 
-        $scope.displayCityList = function () {
-            history.pushState(location.href, "", location.href);
+        $scope.displayCityList = function () {            
             $http.get("https://kinodnesapi.azurewebsites.net/api/kino/Cities")
                 .then(function (response) {
                     $scope.cityList = response.data;
@@ -82,9 +80,9 @@ app.controller('kinoCtrl',
             $scope.displayCityList();
         } else {
             var arguments = location.pathname.split("/");
-            $scope.city = arguments[1];
+            var city = arguments[1];
             $scope.date = arguments[2];
-            $scope.displayCinemas($scope.city, $scope.date);
+            $scope.displayCinemas(city, $scope.date);
         }
     });
 
