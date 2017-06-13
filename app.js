@@ -56,6 +56,7 @@ app.controller('kinoCtrl',
         };
 
         $scope.selectCity = function (cityName) {
+            $scope.city = cityName;
             $scope.loading = true;
             document.getElementById("districtButtons").style.display = "none";
             var newLocation = location.href + cityName;
