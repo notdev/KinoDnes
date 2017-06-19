@@ -2,7 +2,9 @@ var app = angular.module('kino', []);
 app.controller('kinoCtrl',
     function ($scope, $http) {
         $scope.loading = true;
+        $scope.listings = false;
         $scope.noMoviesMessage = false;
+        $scope.districtButtons = false;
 
         $scope.addDaysToDate = function (date, daysToAdd) {
             var addedDate = new Date(date);
@@ -45,13 +47,13 @@ app.controller('kinoCtrl',
             }
 
             $scope.loading = true;
+            $scope.listings = true;
             $scope.cinemaListings = [];
             $scope.noMoviesMessage = false;
 
             $http.get($url)
                 .then(function (response) {
                     $scope.loading = false;
-                    document.getElementById("listings").style.display = "";
                     if (response.data.length === 0) {
                         $scope.noMoviesMessage = true;
                     } else {
@@ -63,7 +65,7 @@ app.controller('kinoCtrl',
         $scope.selectCity = function (cityName) {
             $scope.loading = true;
             $scope.city = cityName;
-            document.getElementById("districtButtons").style.display = "none";
+            $scope.districtButtons = false;
             $scope.displayCinemas(cityName);
         };
 
@@ -72,13 +74,24 @@ app.controller('kinoCtrl',
         };
 
         $scope.displayCityList = function () {
+            $scope.listings = false;
             $http.get("https://kinodnesapi.azurewebsites.net/api/kino/Cities")
                 .then(function (response) {
                     $scope.cityList = response.data;
-                    document.getElementById("districtButtons").style.display = "";
+                    $scope.districtButtons = true;
                     $scope.loading = false;
                 });
         }
+
+        window.onpopstate = function (e) {
+            if (e.state) {
+                location.href = e.state;
+            } else {
+                $scope.loading = true;
+                $scope.cinemaListings = [];
+                $scope.displayCityList();
+            }
+        };
 
         if (location.pathname === "/") {
             $scope.displayCityList();
@@ -89,9 +102,3 @@ app.controller('kinoCtrl',
             $scope.displayCinemas(city, $scope.date);
         }
     });
-
-window.onpopstate = function (e) {
-    if (e.state) {
-        location.href = e.state;
-    }
-};

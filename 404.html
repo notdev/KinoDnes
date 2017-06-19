@@ -14,7 +14,7 @@
 <body>
     <div ng-app="kino" ng-controller="kinoCtrl" class="container">
         <div class="loadersmall" ng-show="loading"></div>
-        <div id="listings" style="display: none">
+        <div ng-show="listings">
             <div class="container">
                 <a href=""><span ng-click="displayCinemas(city, previous)" style="float:left">{{previous}}</span></a>
                 <span class="float_center">{{current}}</span>
@@ -36,12 +36,12 @@
                 </div>
             </div>
         </div>
-        <div id="noMoviesMessage" style="display: none;">
+        <div ng-show="noMoviesMessage">
             <div class="container" style="margin: 0 auto;">
                 <h5>Dnes již v kině nic nedávají, zkus to znovu zítra.</h5>
             </div>
         </div>
-        <div id="districtButtons" style="display: none;">
+        <div ng-show="districtButtons">
             <div ng-repeat="city in cityList">
                 <button ng-click="selectCity(city)">{{city}}</button>
             </div>
