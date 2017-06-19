@@ -2,6 +2,7 @@ var app = angular.module('kino', []);
 app.controller('kinoCtrl',
     function ($scope, $http) {
         $scope.loading = true;
+        $scope.noMoviesMessage = false;
 
         $scope.addDaysToDate = function (date, daysToAdd) {
             var addedDate = new Date(date);
@@ -43,20 +44,23 @@ app.controller('kinoCtrl',
                 history.pushState(newLocation, "", newLocation);
             }
 
+            $scope.loading = true;
+            $scope.cinemaListings = [];
+            $scope.noMoviesMessage = false;
+
             $http.get($url)
                 .then(function (response) {
                     $scope.loading = false;
                     document.getElementById("listings").style.display = "";
                     if (response.data.length === 0) {
-                        document.getElementById("noMoviesMessage").style.display = "";
+                        $scope.noMoviesMessage = true;
                     } else {
-                        $scope.cinemaListings = response.data;                        
-                        document.getElementById("noMoviesMessage").style.display = "none";
+                        $scope.cinemaListings = response.data;
                     }
                 });
         };
 
-        $scope.selectCity = function (cityName) {            
+        $scope.selectCity = function (cityName) {
             $scope.loading = true;
             $scope.city = cityName;
             document.getElementById("districtButtons").style.display = "none";
@@ -67,7 +71,7 @@ app.controller('kinoCtrl',
             return cityAndCinema.replace(/.*?- /, "");
         };
 
-        $scope.displayCityList = function () {            
+        $scope.displayCityList = function () {
             $http.get("https://kinodnesapi.azurewebsites.net/api/kino/Cities")
                 .then(function (response) {
                     $scope.cityList = response.data;
