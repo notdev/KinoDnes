@@ -15,7 +15,7 @@
     <div ng-app="kino" ng-controller="kinoCtrl" class="container">
         <div class="loadersmall" ng-show="loading"></div>
         <div ng-show="listings">
-            <div class="container">
+            <div class="row">
                 <a href=""><span ng-click="displayCinemas(city, previous)" style="float:left">{{previous}}</span></a>
                 <span class="float_center">{{current}}</span>
                 <a href=""><span ng-click="displayCinemas(city, next)" style="float:right">{{next}}</span></a>
