@@ -46,15 +46,18 @@ app.controller('kinoCtrl',
                 history.pushState(newLocation, "", newLocation);
             }
 
+            $scope.loading = true;
+            $scope.listings = true;
+            $scope.cinemaListings = [];
+            $scope.noMoviesMessage = false;
+
             $http.get($url)
                 .then(function (response) {
                     $scope.loading = false;
-                    if (response.data.length === 0) {                        
+                    if (response.data.length === 0) {
                         $scope.noMoviesMessage = true;
                     } else {
                         $scope.cinemaListings = response.data;
-                        $scope.listings = true;                        
-                        $scope.noMoviesMessage = false;
                     }
                 });
         };
