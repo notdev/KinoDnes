@@ -53,7 +53,7 @@ namespace KinoDnes.Cache
             return GetAllListingsForDate(CacheTimeHelper.NextCzechMidnight);
         }
 
-        public static IEnumerable<Cinema> GetAllListingsForDate(DateTime date)
+        private static IEnumerable<Cinema> GetAllListingsForDate(DateTime date)
         {
             var key = date.ToString("ddMMyyyy");
             return AddOrGetExisting(key, () => GetCinemasWithMoviesPlayingAtDate(GetAllListings(), date));
@@ -102,7 +102,7 @@ namespace KinoDnes.Cache
             return listingsPlayingSinceDate;
         }
 
-        public static IEnumerable<Cinema> GetAllListings()
+        private static IEnumerable<Cinema> GetAllListings()
         {
             return AddOrGetExisting("all", InitAllCinemaListings);
         }
