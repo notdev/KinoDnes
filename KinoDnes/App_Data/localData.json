@@ -1,1 +1,1121 @@
-﻿
+﻿[
+  {
+    "CinemaName": "Cinematik - ŽiWell",
+    "Movies": [
+      {
+        "MovieName": "Batman: Odvážny hrdina",
+        "Url": "https://www.csfd.cz/film/250329-batman-odvazny-hrdina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Batman: Odvážny hrdina",
+        "Url": "https://www.csfd.cz/film/250329-batman-odvazny-hrdina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Batman: Odvážny hrdina",
+        "Url": "https://www.csfd.cz/film/250329-batman-odvazny-hrdina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Batman: Odvážny hrdina",
+        "Url": "https://www.csfd.cz/film/250329-batman-odvazny-hrdina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Batman: Odvážny hrdina",
+        "Url": "https://www.csfd.cz/film/250329-batman-odvazny-hrdina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "CinemaName": "Cinematik - Kino Klub",
+    "Movies": [
+      {
+        "MovieName": "Dede",
+        "Url": "https://www.csfd.cz/film/501380-dede/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Predsudok",
+        "Url": "https://www.csfd.cz/film/416957-prejudice/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Sprisahanie šedej rasy",
+        "Url": "https://www.csfd.cz/film/497429-spiknuti-sede-rasy/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Chlapec, ktorý chcel byť prezidentom",
+        "Url": "https://www.csfd.cz/film/503234-chlapec-ktory-chcel-byt-prezidentom/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Sex Cowboys",
+        "Url": "https://www.csfd.cz/film/471923-sex-cowboys/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Posledný obraz",
+        "Url": "https://www.csfd.cz/film/484573-tzu-hua-hsian/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Maryina slučka",
+        "Url": "https://www.csfd.cz/film/536871-l-instant-infini/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Beží, beží celý svet",
+        "Url": "https://www.csfd.cz/film/110726-il-court-il-court-le-monde/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "R. už viac neodpovedá",
+        "Url": "https://www.csfd.cz/film/110732-r-ne-repond-plus/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Profesionálna cudzinka",
+        "Url": "https://www.csfd.cz/film/467126-profesionalna-cudzinka/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Myslím na vás",
+        "Url": "https://www.csfd.cz/film/110727-myslim-na-vas/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Waterboys",
+        "Url": "https://www.csfd.cz/film/523717-waterboys/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Študentské filmy – VŠMU",
+        "Url": "http://www.cinematik.sk/program/studentske-filmy-vsmu/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Belgica",
+        "Url": "https://www.csfd.cz/film/368942-belgica/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Dieťa",
+        "Url": "https://www.csfd.cz/film/205758-dite/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Aby sa vojna skončila, steny sa museli zrútiť",
+        "Url": "https://www.csfd.cz/film/110730-pour-que-la-guerre-s-acheve-les-murs-devaient-s-ecrouter/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Falsch",
+        "Url": "https://www.csfd.cz/film/110724-falsch/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Elon neverí na smrť",
+        "Url": "https://www.csfd.cz/film/478778-elon-nao-acredita-na-morte/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Študentské filmy – AKU",
+        "Url": "http://www.cinematik.sk/program/studentske-filmy-aku/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Chlapec na bicykli",
+        "Url": "https://www.csfd.cz/film/294645-kluk-na-kole/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Lekcie z lietajúcej univerzity",
+        "Url": "https://www.csfd.cz/film/110728-lecons-d-une-universite-volante/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Hýb sa! Pretancuj svoj život",
+        "Url": "https://www.csfd.cz/film/536870-move-dance-your-life/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Sedem hriechov civilizácie",
+        "Url": "https://www.csfd.cz/film/466926-sedem-hriechov-civilizacie/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Ministerstvo lásky",
+        "Url": "https://www.csfd.cz/film/462979-ministerstvo-lasky/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Axolotl Overkill",
+        "Url": "https://www.csfd.cz/film/478061-axolotl-overkill/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "CinemaName": "Cinematik - Dom umenia",
+    "Movies": [
+      {
+        "MovieName": "Saint Amour",
+        "Url": "https://www.csfd.cz/film/53447-saint-amour/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Elle",
+        "Url": "https://www.csfd.cz/film/373046-elle/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Zero",
+        "Url": "https://www.csfd.cz/film/51623-zero/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Raw",
+        "Url": "https://www.csfd.cz/film/437390-raw/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Ardeny",
+        "Url": "https://www.csfd.cz/film/68053-d-ardennen/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "DOGG",
+        "Url": "http://www.cinematik.sk/program/dogg/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Stratená v Paríži",
+        "Url": "https://www.csfd.cz/film/446673-ztraceni-v-parizi/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Melody",
+        "Url": "https://www.csfd.cz/film/385268-melody/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Nechajte mŕtvoly slniť sa",
+        "Url": "https://www.csfd.cz/film/455687-laissez-bronzer-les-cadavres/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Bez lásky",
+        "Url": "https://www.csfd.cz/film/504696-nemilovani/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Rukojemníci",
+        "Url": "https://www.csfd.cz/film/487888-rukojmi/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Neznáme dievča",
+        "Url": "https://www.csfd.cz/film/424384-neznama-divka/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Nie som tvoj černoch",
+        "Url": "https://www.csfd.cz/film/456140-i-am-not-your-negro/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Mláďa",
+        "Url": "https://www.csfd.cz/film/378932-welp/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Boľšoj",
+        "Url": "https://www.csfd.cz/film/485066-bolsoj/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "American Honey",
+        "Url": "https://www.csfd.cz/film/42870-american-honey/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Po láske",
+        "Url": "https://www.csfd.cz/film/426922-po-lasce/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Dva dni, jedna noc",
+        "Url": "https://www.csfd.cz/film/346887-dva-dny-jedna-noc/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Frantz",
+        "Url": "https://www.csfd.cz/film/438346-frantz/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T19:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "S láskou Vincent",
+        "Url": "https://www.csfd.cz/film/428847-s-laskou-vincent/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T19:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Neon Demon",
+        "Url": "https://www.csfd.cz/film/348578-neon-demon/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "O tele a duši",
+        "Url": "https://www.csfd.cz/film/485355-o-tele-a-dusi/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Out",
+        "Url": "https://www.csfd.cz/film/504827-out/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Good Time",
+        "Url": "https://www.csfd.cz/film/114663-dobry-casy/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Mŕtvy uhol",
+        "Url": "https://www.csfd.cz/film/495580-dode-hoek/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Druhá strana nádeje",
+        "Url": "https://www.csfd.cz/film/424387-druha-strana-nadeje/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Happy End",
+        "Url": "https://www.csfd.cz/film/458579-happy-end/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "CinemaName": "Cinematik - Fontána",
+    "Movies": [
+      {
+        "MovieName": "Mzda strachu",
+        "Url": "https://www.csfd.cz/film/38791-mzda-strachu/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Vlk z Královských Vinohrad",
+        "Url": "https://www.csfd.cz/film/55911-vlk-z-kralovskych-vinohrad/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Vinyan",
+        "Url": "https://www.csfd.cz/film/243900-vinyan/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Bez názvu",
+        "Url": "https://www.csfd.cz/film/488325-bez-nazvu/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Křižáček",
+        "Url": "https://www.csfd.cz/film/342064-krizacek/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Blízke stretnutie tretieho druhu (režisérsky zostrih)",
+        "Url": "https://www.csfd.cz/film/8631-blizka-setkani-tretiho-druhu/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "LEGO® Batman vo filme",
+        "Url": "https://www.csfd.cz/film/392898-lego-r-batman-film/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Vnútorné slnko",
+        "Url": "https://www.csfd.cz/film/491657-vnitrni-slunce/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Krížová cesta",
+        "Url": "https://www.csfd.cz/film/178726-kalvarie/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Hardcore",
+        "Url": "https://www.csfd.cz/film/18569-naostro/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T01:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Jota",
+        "Url": "https://www.csfd.cz/film/452421-la-jota/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Kupónová privatizácia: Česká cesta",
+        "Url": "https://www.csfd.cz/film/391529-ceska-cesta/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Diera v hlave",
+        "Url": "https://www.csfd.cz/film/463873-dira-v-hlave/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Tisíckrát Jááánošííík alebo zrod legendy",
+        "Url": "http://www.cinematik.sk/program/tisickrat-jaaanosiiik-alebo-zrod-legendy/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Aleluja",
+        "Url": "https://www.csfd.cz/film/371486-aleluja/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Mlčanie Lorny",
+        "Url": "https://www.csfd.cz/film/242269-mlceni-lorny/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Richard Müller: Nespoznaný",
+        "Url": "https://www.csfd.cz/film/435393-richard-muller-nepoznany/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Kubo a kúzelný meč",
+        "Url": "https://www.csfd.cz/film/400559-kubo-a-kouzelny-mec/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T11:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Syn",
+        "Url": "https://www.csfd.cz/film/110725-syn/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Sľub",
+        "Url": "https://www.csfd.cz/film/110731-slib/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Ťažká duša",
+        "Url": "http://www.cinematik.sk/program/tazka-dusa/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Prestrelka",
+        "Url": "https://www.csfd.cz/film/396632-krizova-palba/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Mimózy",
+        "Url": "https://www.csfd.cz/film/437568-mimozy/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Nina",
+        "Url": "https://www.csfd.cz/film/519128-nina/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Mir vam",
+        "Url": "https://www.csfd.cz/film/468016-mir-vam/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T17:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Prázdnota",
+        "Url": "https://www.csfd.cz/film/323438-prazdnota/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Vytrženie",
+        "Url": "https://www.csfd.cz/film/4021-la-fleur-de-l-age/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T23:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Umenie milovať",
+        "Url": "https://www.csfd.cz/film/441446-umeni-milovani/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T19:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Detské ihrisko",
+        "Url": "https://www.csfd.cz/film/456594-detske-hriste/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Hostia",
+        "Url": "https://www.csfd.cz/film/5090-hoste/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T03:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Austerlitz",
+        "Url": "https://www.csfd.cz/film/452796-austerlitz/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T09:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "10 rokov lásky",
+        "Url": "https://www.csfd.cz/film/519899-10-rokov-lasky/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T14:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "CinemaName": "Cinematik - Kino Kúpele",
+    "Movies": [
+      {
+        "MovieName": "Vojnoví psi",
+        "Url": "https://www.csfd.cz/film/50757-typci-a-zbrane/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Hacksaw ridge: Zrodenie hrdinu",
+        "Url": "https://www.csfd.cz/film/411301-hacksaw-ridge-zrozeni-hrdiny/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Oslnení slnkom",
+        "Url": "https://www.csfd.cz/film/396920-oslneni-sluncem/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Totem vlka",
+        "Url": "https://www.csfd.cz/film/352084-totem-vlka/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T20:00:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "CinemaName": "Cinematik - Bažant Kinematograf",
+    "Movies": [
+      {
+        "MovieName": "V mene krvi",
+        "Url": "https://www.csfd.cz/film/376160-ve-jmenu-krve/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-13T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Nocturama",
+        "Url": "https://www.csfd.cz/film/57290-nocturama/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-16T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Odkaz vo fľaši",
+        "Url": "https://www.csfd.cz/film/401322-vzkaz-v-lahvi/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-15T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Hore za láskou",
+        "Url": "https://www.csfd.cz/film/145356-za-laskou-vzhuru/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-17T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Úkryt v zoo",
+        "Url": "https://www.csfd.cz/film/348243-ukryt-v-zoo/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-12T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      },
+      {
+        "MovieName": "Rozpoltený",
+        "Url": "https://www.csfd.cz/film/221871-rozpolceny/",
+        "Rating": 0,
+        "Times": [
+          {
+            "Time": "2017-09-14T20:30:00+02:00",
+            "Flags": []
+          }
+        ]
+      }
+    ]
+  }
+]
