@@ -5,6 +5,7 @@ using System.Runtime.Caching;
 using CsfdAPI;
 using KinoDnes.DataProvider;
 using KinoDnes.Models;
+using Serilog;
 using Movie = CsfdAPI.Model.Movie;
 
 namespace KinoDnes.Cache
@@ -162,21 +163,29 @@ namespace KinoDnes.Cache
 
         private static IEnumerable<Cinema> InitAllCinemaListings()
         {
-            var listFromFsCache = FileSystemCinemaCache.GetCinemaCache();
-            if (listFromFsCache != null)
+            try
             {
-                return listFromFsCache;
-            }
+                var listFromFsCache = FileSystemCinemaCache.GetCinemaCache();
+                if (listFromFsCache != null)
+                {
+                    return listFromFsCache;
+                }
 
-            var dataProviders = new List<IDataProvider>
+                var dataProviders = new List<IDataProvider>
+                {
+                    new CsfdDataProvider(),
+                    new LocalFileDataProvider()
+                };
+
+                var cinemaList = dataProviders.SelectMany(d => d.GetAllCinemas()).ToList();
+                FileSystemCinemaCache.SetCinemaCache(cinemaList);
+                return cinemaList;
+            }
+            catch (Exception e)
             {
-                new CsfdDataProvider(),
-                new LocalFileDataProvider()
-            };
-            
-            var cinemaList = dataProviders.SelectMany(d => d.GetAllCinemas()).ToList();
-            FileSystemCinemaCache.SetCinemaCache(cinemaList);
-            return cinemaList;
+                Log.Error(e.ToString());
+                throw;
+            }
         }
     }
 }
