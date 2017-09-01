@@ -170,7 +170,7 @@ namespace KinoDnes.Cache
 
             var dataProviders = new List<IDataProvider>
             {
-                //new CsfdDataProvider(),
+                new CsfdDataProvider(),
                 new LocalFileDataProvider()
             };
             
