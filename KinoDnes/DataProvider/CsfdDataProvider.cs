@@ -9,7 +9,7 @@ using Movie = KinoDnes.Models.Movie;
 
 namespace KinoDnes.DataProvider
 {
-    public class CsfdDataProvider
+    public class CsfdDataProvider : IDataProvider
     {
         public IEnumerable<Cinema> GetAllCinemas()
         {

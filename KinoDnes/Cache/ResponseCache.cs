@@ -168,8 +168,13 @@ namespace KinoDnes.Cache
                 return listFromFsCache;
             }
 
-            var csfdDataProvider = new CsfdDataProvider();
-            var cinemaList = csfdDataProvider.GetAllCinemas().ToList();
+            var dataProviders = new List<IDataProvider>
+            {
+                //new CsfdDataProvider(),
+                new LocalFileDataProvider()
+            };
+            
+            var cinemaList = dataProviders.SelectMany(d => d.GetAllCinemas()).ToList();
             FileSystemCinemaCache.SetCinemaCache(cinemaList);
             return cinemaList;
         }
