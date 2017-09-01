@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using KinoDnes.Models;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace KinoDnes.Cache
 {
@@ -31,6 +32,7 @@ namespace KinoDnes.Cache
                     var cinemaCache = JsonConvert.DeserializeObject<CinemaFsCache>(cinemasString);
                     if (cinemaCache.ValidUntil > CacheTimeHelper.CurrentCzTime)
                     {
+                        Log.Information($"Loaded cinema cache from '{CachePath}'");
                         return cinemaCache.Cinemas;
                     }
                 }
