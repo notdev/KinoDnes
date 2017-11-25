@@ -1,11 +1,19 @@
 ﻿using System;
+using NodaTime;
 
 namespace KinoDnesApi
 {
     public static class CetTime
     {
-        private const string TimeZone = "Central Europe Standard Time";
-
-        public static DateTime Now => TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, TimeZone);
+        public static DateTime Now
+        {
+            get
+            {
+                var pragueTimeZone = DateTimeZoneProviders.Tzdb["Europe/Prague"];
+                return Instant.FromDateTimeUtc(DateTime.UtcNow)
+                    .InZone(pragueTimeZone)
+                    .ToDateTimeUnspecified();
+            }
+        }
     }
 }
