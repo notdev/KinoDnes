@@ -96,8 +96,7 @@ namespace KinoDnesApi.DataProviders
                 }
                 catch (Exception e)
                 {
-                    // TODO add logging
-                    //Log.Warning($"Failed to get movie with URL {url}: {e}");
+                    Console.WriteLine($"Failed to get movie, will retry. Exception:{Environment.NewLine}{e}");
                 }
             }
             throw new Exception($"Failed to get movie on URL {url}");
