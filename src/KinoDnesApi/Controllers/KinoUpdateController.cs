@@ -14,10 +14,10 @@ namespace KinoDnesApi.Controllers
 
         public KinoUpdateController(IFileSystemShowTimes fileSystemShowTimes, ICsfdDataProvider csfdDataProvider, IOptions<EnvironmentVariables> configuration)
         {
-            var configuration1 = configuration.Value;
-            _apiKey = configuration1.ApiKey;
+            var configurationValue = configuration.Value;
+            _apiKey = configurationValue.ApiKey;
 
-            if (string.IsNullOrEmpty(configuration1.ApiKey))
+            if (string.IsNullOrEmpty(_apiKey))
             {
                 throw new ArgumentException("'ApiKey' must be defined as environment variable");
             }
