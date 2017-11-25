@@ -1,6 +1,8 @@
 ﻿using System;
 using KinoDnesApi.DataProviders;
+using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace KinoDnesApi.Controllers
 {
@@ -8,28 +10,33 @@ namespace KinoDnesApi.Controllers
     {
         private readonly IFileSystemShowTimes _fileSystemShowTimes;
         private readonly ICsfdDataProvider _csfdDataProvider;
+        private readonly string _apiKey;
 
-        public KinoUpdateController(IFileSystemShowTimes fileSystemShowTimes, ICsfdDataProvider csfdDataProvider)
+        public KinoUpdateController(IFileSystemShowTimes fileSystemShowTimes, ICsfdDataProvider csfdDataProvider, IOptions<EnvironmentVariables> configuration)
         {
+            var configuration1 = configuration.Value;
+            _apiKey = configuration1.ApiKey;
+
+            if (string.IsNullOrEmpty(configuration1.ApiKey))
+            {
+                throw new ArgumentException("'ApiKey' must be defined as environment variable");
+            }
+
             _fileSystemShowTimes = fileSystemShowTimes;
             _csfdDataProvider = csfdDataProvider;
         }
 
         [Route("/api/kino/update")]
-        public IActionResult UpdateShowTimes()
+        public IActionResult UpdateShowTimes(string apiKey)
         {
-            try
+            if (apiKey != _apiKey)
             {
-                var showTimes = _csfdDataProvider.GetAllShowTimes();
-                _fileSystemShowTimes.Set(showTimes);
-                return Ok();
+                return Unauthorized();
             }
-            catch (Exception e)
-            {
-                // TODO logging
-                Console.WriteLine(e);
-                throw;
-            }
+
+            var showTimes = _csfdDataProvider.GetAllShowTimes();
+            _fileSystemShowTimes.Set(showTimes);
+            return Ok();
         }
     }
 }
