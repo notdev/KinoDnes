@@ -5,6 +5,7 @@ app.controller('kinoCtrl',
         $scope.listings = false;
         $scope.noMoviesMessage = false;
         $scope.districtButtons = false;
+        $scope.apiEndpoint = "https://api.kinodnes.cz/api/kino/get/";
 
         $scope.addDaysToDate = function (date, daysToAdd) {
             var addedDate = new Date(date);
@@ -28,7 +29,7 @@ app.controller('kinoCtrl',
 
         $scope.displayCinemas = function (cityName, urlDate) {
             $scope.city = cityName;
-            $url = "https://kinodnesapi.azurewebsites.net/api/kino/" + cityName;
+            $url = $scope.apiEndpoint + cityName;
             var date = $scope.getDateFromUrl(urlDate);
             // Today
             if ($scope.getDateString(date) == $scope.getDateString(new Date())) {
@@ -75,7 +76,7 @@ app.controller('kinoCtrl',
 
         $scope.displayCityList = function () {
             $scope.listings = false;
-            $http.get("https://kinodnesapi.azurewebsites.net/api/kino/Cities")
+            $http.get($scope.apiEndpoint + "cities")
                 .then(function (response) {
                     $scope.cityList = response.data;
                     $scope.districtButtons = true;
