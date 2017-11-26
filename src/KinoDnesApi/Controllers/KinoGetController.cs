@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace KinoDnesApi.Controllers
 {
@@ -17,17 +16,40 @@ namespace KinoDnesApi.Controllers
         }
 
         [HttpGet]
-        [Route("/api/kino/get/{city}")]
-        public IActionResult Get(string city)
+        [Route("api/kino/get/cities")]
+        public IEnumerable<string> GetCities()
         {
-            return GetForDate(city, CetTime.Now);
+            var allCinemas = GetCinemasWithMoviesPlayingAtDate(CetTime.Now.Date).Select(listing => listing.CinemaName);
+            var cities = allCinemas.Select(GetCityName).OrderBy(city => city);
+
+            var topCities = new List<string> {"Praha", "Brno", "Bratislava", "Ostrava"};
+
+            var allCities = topCities.Concat(cities).Distinct();
+            return allCities;
+        }
+
+        [HttpGet]
+        [Route("/api/kino/get/{city}")]
+        public IEnumerable<Cinema> GetShowtimesToday(string city)
+        {
+            return GetShowtimesForDate(city, CetTime.Now);
         }
 
         [HttpGet]
         [Route("/api/kino/get/{city}/{date}")]
-        public IActionResult GetForDate(string city, DateTime date)
+        public IEnumerable<Cinema> GetShowtimesForDate(string city, DateTime date)
         {
-            return Json(GetListingsForDate(city, date));
+            return GetListingsForDate(city, date);
+        }
+
+        private string GetCityName(string cityAndCinemaName)
+        {
+            var split = cityAndCinemaName.Split(new[] {" - "}, StringSplitOptions.None);
+            if (split.Length < 2)
+            {
+                throw new ArgumentException($"City name must be in format 'City - Cinema'. Failed to parse '{cityAndCinemaName}'");
+            }
+            return split[0];
         }
 
         private IEnumerable<Cinema> GetListingsForDate(string city, DateTime date)
@@ -36,13 +58,13 @@ namespace KinoDnesApi.Controllers
 
             var moviesPlayingAtDate = GetCinemasWithMoviesPlayingAtDate(date);
             var moviesForCity = moviesPlayingAtDate
-                                    .Where(c => StringNormalizer.StandardizeString(c.CinemaName).Contains(standardizedCity));
+                .Where(c => StringNormalizer.StandardizeString(c.CinemaName).Contains(standardizedCity));
             return moviesForCity;
         }
 
         private IEnumerable<Cinema> GetCinemasWithMoviesPlayingAtDate(DateTime date)
         {
-            IEnumerable<Cinema> cinemas = _fileSystemShowTimes.Get();
+            var cinemas = _fileSystemShowTimes.Get();
 
             var listingsPlayingSinceDate = new List<Cinema>();
 
