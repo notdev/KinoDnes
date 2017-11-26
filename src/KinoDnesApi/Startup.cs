@@ -25,6 +25,7 @@ namespace KinoDnesApi
             services.AddMemoryCache();
             services.AddSingleton<ICsfdDataProvider, CsfdDataProvider>();
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -34,6 +35,8 @@ namespace KinoDnesApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(option => option.AllowAnyOrigin());
 
             app.UseMvc();
         }
