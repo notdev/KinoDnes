@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using KinoDnesApi.DataProviders;
 using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +35,15 @@ namespace KinoDnesApi.Controllers
                 return Unauthorized();
             }
 
-            var showTimes = _csfdDataProvider.GetAllShowTimes();
-            _fileSystemShowTimes.Set(showTimes);
+            var showTimes = _csfdDataProvider.GetAllShowTimes().ToList();
+            if (showTimes.Any())
+            {
+                _fileSystemShowTimes.Set(showTimes);
+            }
+            else
+            {
+                throw new Exception("Failed to get any showtimes");
+            }
             return Ok();
         }
     }
