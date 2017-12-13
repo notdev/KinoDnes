@@ -36,6 +36,13 @@ namespace KinoDnesApi.Controllers
         }
 
         [HttpGet]
+        [Route("/api/kino/get/showtimesage")]
+        public int GetShowtimesAge()
+        {
+            return _fileSystemShowTimes.GetAgeHours();
+        }
+
+        [HttpGet]
         [Route("/api/kino/get/{city}/{date}")]
         public IEnumerable<Cinema> GetShowtimesForDate(string city, DateTime date)
         {
