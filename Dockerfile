@@ -14,3 +14,5 @@ FROM microsoft/aspnetcore
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "KinoDnesApi.dll"]
+
+EXPOSE 80
