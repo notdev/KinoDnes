@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using KinoDnesApi.DataProviders;
 using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +28,8 @@ namespace KinoDnesApi.Controllers
             _csfdDataProvider = csfdDataProvider;
         }
 
-        [Route("/api/kino/update")]
-        public IActionResult UpdateShowTimes(string apiKey)
+        private void UpdateShowTimes()
         {
-            if (apiKey != _apiKey)
-            {
-                return Unauthorized();
-            }
-
             var showTimes = _csfdDataProvider.GetAllShowTimes().ToList();
             if (showTimes.Any())
             {
@@ -44,6 +39,17 @@ namespace KinoDnesApi.Controllers
             {
                 throw new Exception("Failed to get any showtimes");
             }
+        }
+
+        [Route("/api/kino/update")]
+        public IActionResult UpdateShowTimes(string apiKey)
+        {
+            if (apiKey != _apiKey)
+            {
+                return Unauthorized();
+            }
+
+            Task.Run(() => UpdateShowTimes());
             return Ok();
         }
     }
