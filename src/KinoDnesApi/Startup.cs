@@ -39,6 +39,8 @@ namespace KinoDnesApi
             }
 
             app.UseCors(option => option.AllowAnyOrigin());
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseMvc();
         }
