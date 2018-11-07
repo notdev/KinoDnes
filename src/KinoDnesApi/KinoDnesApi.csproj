@@ -12,7 +12,7 @@
     <PackageReference Include="CsfdAPI" Version="2018.1.20.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="NodaTime" Version="2.4.0" />
-    <PackageReference Include="SharpRaven" Version="2.4.0" />
+    <PackageReference Include="Sentry.AspNetCore" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

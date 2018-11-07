@@ -15,6 +15,7 @@ namespace KinoDnesApi
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureLogging((hostingcontext, logging) => { logging.AddConsole(); })
                 .UseStartup<Startup>()
+                .UseSentry()
                 .Build();
     }
 }
