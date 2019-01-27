@@ -10,12 +10,14 @@
 <body>
 <div>
     Main page
-    <div>
-        CityModel = @Model.City
-    </div>
-    <div>
-        DateModel = @Model.Date    
-    </div>
+    @if (Model.City == null)
+    {
+        // Main page
+    }
+    else
+    {
+        // Page with movies
+    }
 </div>
 </body>
 </html>
