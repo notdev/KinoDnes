@@ -1,18 +1,21 @@
-using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace KinoDnesApi.Pages
 {
     public class IndexModel : PageModel
     {
-        public string City { get; set; }
-        public DateTime? Date { get; set; }
+        private readonly DataGenerator _dataGenerator;
+        public IEnumerable<string> Cities;
 
-
-        public void OnGet(string city, DateTime? date)
+        public IndexModel(DataGenerator dataGenerator)
         {
-            City = city;
-            Date = date;
+            _dataGenerator = dataGenerator;
+        }
+
+        public void OnGet()
+        {
+            Cities = _dataGenerator.GetCities();
         }
     }
 }

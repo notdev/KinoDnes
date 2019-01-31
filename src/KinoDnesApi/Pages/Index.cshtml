@@ -1,22 +1,16 @@
-@page "{city?}/{date?}"
+@page "/"
 @model KinoDnesApi.Pages.IndexModel
-
 <!DOCTYPE html>
-
 <html>
-<head>
-    <title>Kino Dnes</title>
-</head>
+@await Html.PartialAsync("Head")
+
 <body>
-<div>
-    Main page
-    @if (Model.City == null)
+<div class="container">
+    @foreach (var city in Model.Cities)
     {
-        // Main page
-    }
-    else
-    {
-        // Page with movies
+        <div>
+            <a class="button" href="/@city">@city</a>
+        </div>
     }
 </div>
 </body>

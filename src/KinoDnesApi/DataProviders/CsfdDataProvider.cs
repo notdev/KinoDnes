@@ -44,7 +44,7 @@ namespace KinoDnesApi.DataProviders
 
             foreach (var cinemaListingMovie in cinemaListingMovies)
             {
-                var movieTimes = cinemaListingMovie.Times.Select(time => new MovieTime(time, GetShortFlags(cinemaListingMovie.Flags)));
+                var movieTimes = cinemaListingMovie.Times.Select(time => new MovieTime(time, GetShortFlags(cinemaListingMovie.Flags).ToList()));
 
                 // Movie already exist in this listing, add times
                 if (listingMoviesDictionary.Keys.Contains(cinemaListingMovie.MovieName))

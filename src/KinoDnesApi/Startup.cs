@@ -25,6 +25,7 @@ namespace KinoDnesApi
             services.Configure<EnvironmentVariables>(Configuration);
             services.AddMemoryCache();
             services.AddSingleton<ICsfdDataProvider, CsfdDataProvider>();
+            services.AddSingleton<DataGenerator>();
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
             services.AddCors();
             services.AddMvc()
