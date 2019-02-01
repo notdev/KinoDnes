@@ -27,7 +27,7 @@ namespace KinoDnesApi.Controllers
         [Route("/api/kino/get/{city}")]
         public IEnumerable<Cinema> GetShowtimesToday(string city)
         {
-            return _dataGenerator.GetShowtimesForDate(city, CetTime.Now);
+            return _dataGenerator.GetListingsForDate(city, CetTime.Now);
         }
 
         [HttpGet]

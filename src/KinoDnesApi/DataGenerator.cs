@@ -84,10 +84,5 @@ namespace KinoDnesApi
             var allCities = topCities.Concat(cities).Distinct();
             return allCities;
         }
-
-        public IEnumerable<Cinema> GetShowtimesForDate(string city, DateTime now)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
