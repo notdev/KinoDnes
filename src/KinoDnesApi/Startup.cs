@@ -1,9 +1,13 @@
-﻿using KinoDnesApi.DataProviders;
+﻿using System;
+using KinoDnesApi.DataProviders;
 using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
 
 namespace KinoDnesApi
@@ -28,20 +32,50 @@ namespace KinoDnesApi
             services.AddSingleton<DataGenerator>();
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
             services.AddCors();
-            services.AddMvc()
-                    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddResponseCaching();
+            services.AddMvc(
+                    options =>
+                    {
+                        options.CacheProfiles.Add("Default",
+                            new CacheProfile
+                            {
+                                Duration = 60 * 60
+                            });
+                    }
+                )
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseCors(option => option.AllowAnyOrigin());
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 2;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
+            app.UseResponseCaching();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromHours(1)
+                    };
+                context.Response.Headers[HeaderNames.Vary] =
+                    new[] {"Accept-Encoding"};
+
+                await next();
+            });
 
             app.UseMvc();
         }
