@@ -1,0 +1,51 @@
+@page "/{city}/{inputDate?}"
+@model KinoDnesApi.Pages.CityModel
+
+<!DOCTYPE html>
+
+<html>
+@await Html.PartialAsync("Head")
+<body>
+<div class="container">
+    <div>
+        <div class="row">
+            <a href="/@Model.City/@Model.NavigationDates.Previous">
+                <span style="float: left">@Model.NavigationDates.Previous</span>
+            </a>
+            <span class="float_center">@Model.NavigationDates.Current</span>
+            <a href="/@Model.City/@Model.NavigationDates.Next">
+                <span ng-click="displayCinemas(city, next)" style="float: right">@Model.NavigationDates.Next</span>
+            </a>
+        </div>
+        @foreach (var listing in Model.CinemaListings)
+        {
+            <div class="row">
+                <div class="column" style="margin: 3% 0">
+                    <h5>
+                        <a href="http://www.google.com/search?q=@listing.CinemaName&btnI">@listing.CinemaNameWithoutCity</a>
+                    </h5>
+                    <hr class="nadpis">
+                    @foreach (var movie in listing.Movies)
+                    {
+                        <div class="movie">
+                            <a href="@movie.Url">@movie.MovieName</a>
+                            <span class="@movie.GetRatingClass"> @movie.Rating %</span><br/>
+                            @foreach (var time in movie.Times)
+                            {
+                                <code>
+                                    @time.Time.ToString("H:mm")
+                                    @if (time.Flags.Count > 0)
+                                    {
+                                        <span>@string.Join(",", time.Flags)</span>
+                                    }
+                                </code>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+</body>
+</html>

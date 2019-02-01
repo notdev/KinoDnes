@@ -1,0 +1,17 @@
+@page "/"
+@model KinoDnesApi.Pages.IndexModel
+<!DOCTYPE html>
+<html>
+@await Html.PartialAsync("Head")
+
+<body>
+<div class="container">
+    @foreach (var city in Model.Cities)
+    {
+        <div>
+            <a class="button" href="/@city">@city</a>
+        </div>
+    }
+</div>
+</body>
+</html>

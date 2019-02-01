@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace KinoDnesApi.Model
 {
@@ -9,6 +10,8 @@ namespace KinoDnesApi.Model
     {
         public string CinemaName { get; set; }
         public IEnumerable<Movie> Movies { get; set; }
+
+        public string CinemaNameWithoutCity => Regex.Replace(CinemaName,".*?- ", "");
 
         public override string ToString()
         {
