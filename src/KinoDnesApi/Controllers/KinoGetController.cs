@@ -38,10 +38,10 @@ namespace KinoDnesApi.Controllers
         }
 
         [HttpGet]
-        [Route("/api/kino/get/{city}/{date}")]
-        public IEnumerable<Cinema> GetShowtimesForDate(string city, DateTime date)
+        [Route("/api/kino/get/{city}/{inputDate}")]
+        public IEnumerable<Cinema> GetShowtimesForDate(string city, DateTime inputDate)
         {
-            return _dataGenerator.GetListingsForDate(city, date);
+            return _dataGenerator.GetListingsForDate(city, inputDate);
         }
     }
 }
