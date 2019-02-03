@@ -1,4 +1,6 @@
 ﻿using System;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using KinoDnesApi.DataProviders;
 using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
+using Sentry;
 
 namespace KinoDnesApi
 {
@@ -26,13 +29,14 @@ namespace KinoDnesApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<EnvironmentVariables>(Configuration);
             services.AddMemoryCache();
             services.AddSingleton<ICsfdDataProvider, CsfdDataProvider>();
             services.AddSingleton<DataGenerator>();
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
             services.AddCors();
+            services.AddSingleton<ISentryClient, SentryClient>();
             services.AddResponseCaching();
+            services.AddHangfire(config => config.UseMemoryStorage());
             services.AddMvc(
                     options =>
                     {
@@ -46,11 +50,13 @@ namespace KinoDnesApi
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseCors(option => option.AllowAnyOrigin());
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -78,6 +84,7 @@ namespace KinoDnesApi
             });
 
             app.UseMvc();
+            RecurringJob.AddOrUpdate<ShowTimesUpdater>(u => u.Update(), "0 */2 * * *");
         }
     }
 }
