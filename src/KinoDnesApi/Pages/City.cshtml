@@ -27,20 +27,24 @@
                     <hr class="nadpis">
                     @foreach (var movie in listing.Movies)
                     {
-                        <div class="movie">
-                            <a href="@movie.Url">@movie.MovieName</a>
-                            <span class="@movie.GetRatingClass"> @movie.Rating %</span><br/>
-                            @foreach (var time in movie.Times)
-                            {
-                                <code>
-                                    @time.Time.ToString("H:mm")
-                                    @if (time.Flags.Count > 0)
-                                    {
-                                        <span>@string.Join(",", time.Flags)</span>
-                                    }
-                                </code>
-                            }
-                        </div>
+                    <div class="movie">
+                        <a href="@movie.Url">@movie.MovieName</a>
+                        @if (movie.Rating > -1)
+                        {
+                            <span class="@movie.GetRatingClass"> @movie.Rating %</span>
+                        }
+                        <br />
+                        @foreach (var time in movie.Times)
+                        {
+                            <code>
+                                @time.Time.ToString("H:mm")
+                                @if (time.Flags.Count > 0)
+                                {
+                                    <span>@string.Join(",", time.Flags)</span>
+                                }
+                            </code>
+                        }
+                    </div>
                     }
                 </div>
             </div>
