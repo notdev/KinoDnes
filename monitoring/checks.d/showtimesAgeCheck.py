@@ -1,12 +1,12 @@
 from checks import AgentCheck
-import urllib2
+import requests
 
 class ShowtimesAgeCheck(AgentCheck):
     def check(self, instance):
-        response = urllib2.urlopen('https://api.kinodnes.cz/api/kino/get/showtimesage')
-        response_content = response.read()
+        response = requests.get('https://api.kinodnes.cz/api/kino/get/showtimesage')
+
+        response_content = response.content.decode()
         age = int(response_content)
-        self.gauge('kinodnesapi.showtimesage', age)
         
 if __name__ == '__main__':
     check, instances = ShowtimesAgeCheck.from_yaml('/etc/dd-agent/conf.d/showtimesAgeCheck.yaml')
@@ -14,4 +14,3 @@ if __name__ == '__main__':
         print "\nRunning the check"
         check.check(instance)
         print "\nCheck finished"
-        
