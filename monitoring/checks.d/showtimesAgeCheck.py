@@ -7,6 +7,7 @@ class ShowtimesAgeCheck(AgentCheck):
 
         response_content = response.content.decode()
         age = int(response_content)
+        self.gauge('kinodnesapi.showtimesage', age)
         
 if __name__ == '__main__':
     check, instances = ShowtimesAgeCheck.from_yaml('/etc/dd-agent/conf.d/showtimesAgeCheck.yaml')
