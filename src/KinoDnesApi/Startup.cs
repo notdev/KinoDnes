@@ -2,7 +2,6 @@
 using Hangfire;
 using Hangfire.MemoryStorage;
 using KinoDnesApi.DataProviders;
-using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -57,6 +56,10 @@ namespace KinoDnesApi
             app.UseCors(option => option.AllowAnyOrigin());
             app.UseHangfireServer();
             app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] {new HangfireAuthorization()}
+            });
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
