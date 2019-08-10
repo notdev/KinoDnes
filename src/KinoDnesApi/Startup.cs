@@ -1,6 +1,7 @@
 ﻿using System;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using HangfireBasicAuthenticationFilter;
 using KinoDnesApi.DataProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,10 +56,14 @@ namespace KinoDnesApi
 
             app.UseCors(option => option.AllowAnyOrigin());
             app.UseHangfireServer();
-            app.UseHangfireDashboard();
+
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
-                Authorization = new[] {new HangfireAuthorization()}
+                Authorization = new[]
+                {
+                    new HangfireCustomBasicAuthenticationFilter
+                        {User = "admin", Pass = Environment.GetEnvironmentVariable("key")}
+                }
             });
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
