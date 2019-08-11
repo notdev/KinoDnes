@@ -1,7 +1,4 @@
 ﻿using System;
-using Hangfire;
-using Hangfire.MemoryStorage;
-using HangfireBasicAuthenticationFilter;
 using KinoDnesApi.DataProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,8 +32,8 @@ namespace KinoDnesApi
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
             services.AddCors();
             services.AddSingleton<ISentryClient, SentryClient>();
+            services.AddHostedService<ShowTimesUpdateService>();
             services.AddResponseCaching();
-            services.AddHangfire(config => config.UseMemoryStorage());
             services.AddMvc(
                     options =>
                     {
@@ -55,16 +52,6 @@ namespace KinoDnesApi
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseCors(option => option.AllowAnyOrigin());
-            app.UseHangfireServer();
-
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[]
-                {
-                    new HangfireCustomBasicAuthenticationFilter
-                        {User = "admin", Pass = Environment.GetEnvironmentVariable("key")}
-                }
-            });
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -92,7 +79,6 @@ namespace KinoDnesApi
             });
 
             app.UseMvc();
-            RecurringJob.AddOrUpdate<ShowTimesUpdater>(u => u.Update(), "0 */2 * * *");
         }
     }
 }

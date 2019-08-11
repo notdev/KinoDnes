@@ -32,8 +32,14 @@ namespace KinoDnesApi
 
         public IEnumerable<Cinema> Get()
         {
-            var jsonText = File.ReadAllText(_filename);
-            return JsonConvert.DeserializeObject<IEnumerable<Cinema>>(jsonText);
+            try
+            {
+                var jsonText = File.ReadAllText(_filename);
+                return JsonConvert.DeserializeObject<IEnumerable<Cinema>>(jsonText);
+            } catch (IOException)
+            {
+                return new List<Cinema>();
+            }
         }
     }
 }
