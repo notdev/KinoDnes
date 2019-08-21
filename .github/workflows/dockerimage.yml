@@ -11,9 +11,11 @@ jobs:
  
     steps:
     - uses: actions/checkout@v1
+    
     - name: Login to docker registry
     - uses: actions/docker/login@master
-    with:
+      env:
         DOCKER_REGISTRY_URL: https://hub.docker.com
+    
     - name: Build the Docker image
       run: docker build . --tag xobed/kinodnes
