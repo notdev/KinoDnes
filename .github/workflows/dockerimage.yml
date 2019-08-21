@@ -12,10 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Login to docker registry
-      uses: actions/docker/login@master
-    
-    - name: Build the Docker image
+    - name: Build and push
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
