@@ -21,3 +21,7 @@ jobs:
         docker build . --tag xobed/kinodnes
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         docker push xobed/kinodnes
+    - name: Deploy
+      env:
+        DEPLOY_WEBHOOK: ${{ secrets.DEPLOY_WEBHOOK }}
+      run: curl -X POST $DEPLOY_WEBHOOK
