@@ -14,8 +14,13 @@ jobs:
     
     - name: Login to docker registry
       uses: actions/docker/login@master
-      env:
-        DOCKER_REGISTRY_URL: https://hub.docker.com
     
     - name: Build the Docker image
-      run: docker build . --tag xobed/kinodnes
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      run: |
+        docker build . --tag xobed/kinodnes
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker push xobed/kinodnes
