@@ -16,7 +16,7 @@ namespace KinoDnesApi
         private readonly ILogger<ShowTimesUpdateService> _logger;
         private readonly ISentryClient _sentryClient;
         private Timer _timer;
-        private static readonly object _lock = new object();
+        private static readonly object Lock = new object();
 
         public ShowTimesUpdateService(IFileSystemShowTimes fileSystemShowTimes, ICsfdDataProvider csfdDataProvider,
             ILogger<ShowTimesUpdateService> logger, IServiceProvider serviceProvider)
@@ -34,13 +34,20 @@ namespace KinoDnesApi
             }
         }
 
-        public void Update(object state)
+        private void Update(object state)
         {
             try
             {
-                lock (_lock)
+                lock (Lock)
                 {
                     _logger.LogInformation("Starting showtimes update.");
+                    if (_fileSystemShowTimes.GetAgeHours() < 4)
+                    {
+                        _logger.LogInformation("Showtimes age is less than 4 hours, not updating it.");
+                        return;
+                    }
+
+
                     var showTimes = _csfdDataProvider.GetAllShowTimes().ToList();
                     if (showTimes.Any())
                         _fileSystemShowTimes.Set(showTimes);
