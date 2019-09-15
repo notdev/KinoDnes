@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Build and push
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      run: |
+        docker build . --tag xobed/kinodnes
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker push xobed/kinodnes
+    - name: Deploy
+      env:
+        DEPLOY_WEBHOOK: ${{ secrets.DEPLOY_WEBHOOK }}
+      run: curl -X POST $DEPLOY_WEBHOOK
