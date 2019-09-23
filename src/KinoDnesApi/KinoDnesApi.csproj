@@ -1,14 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CsfdAPI" Version="2018.1.20.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="NodaTime" Version="2.4.6" />
-    <PackageReference Include="Sentry.AspNetCore" Version="1.2.0" />
+    <PackageReference Include="NodaTime" Version="2.4.7" />
+    <PackageReference Include="Sentry.AspNetCore" Version="2.0.0-beta4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\bg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\hr-12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

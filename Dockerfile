@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
 WORKDIR /app
 
 COPY ./src/KinoDnesApi/*.csproj ./KinoDnesApi/
@@ -7,9 +7,9 @@ RUN dotnet restore KinoDnesApi
 COPY ./src/ ./
 RUN dotnet publish KinoDnesApi -c Release -o ./../out
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-env /out .
 ENTRYPOINT ["dotnet", "KinoDnesApi.dll"]
 
 EXPOSE 80

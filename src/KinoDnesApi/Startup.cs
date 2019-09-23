@@ -3,18 +3,17 @@ using KinoDnesApi.DataProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Serialization;
 using Sentry;
 
 namespace KinoDnesApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -26,28 +25,17 @@ namespace KinoDnesApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
             services.AddSingleton<ICsfdDataProvider, CsfdDataProvider>();
             services.AddSingleton<DataGenerator>();
             services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
             services.AddCors();
             services.AddSingleton<ISentryClient, SentryClient>();
             services.AddHostedService<ShowTimesUpdateService>();
-            services.AddResponseCaching();
-            services.AddMvc(
-                    options =>
-                    {
-                        options.CacheProfiles.Add("Default",
-                            new CacheProfile
-                            {
-                                Duration = 60 * 60
-                            });
-                    }
-                )
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddRazorPages();
+            services.AddControllersWithViews();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
@@ -62,7 +50,6 @@ namespace KinoDnesApi
                         "public,max-age=" + durationInSeconds;
                 }
             });
-            app.UseResponseCaching();
 
             app.Use(async (context, next) =>
             {
@@ -77,8 +64,13 @@ namespace KinoDnesApi
 
                 await next();
             });
+            app.UseRouting();
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+            });
         }
     }
 }

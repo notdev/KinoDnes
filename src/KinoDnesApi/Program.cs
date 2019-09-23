@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace KinoDnesApi
@@ -8,14 +8,18 @@ namespace KinoDnesApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingcontext, logging) => { logging.AddConsole(); })
-                .UseStartup<Startup>()
-                .UseSentry()
-                .Build();
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureLogging((hostingcontext, logging) => { logging.AddConsole(); });
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSentry();
+                });
+        }
     }
 }
