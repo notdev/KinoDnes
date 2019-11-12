@@ -6,19 +6,19 @@ using Newtonsoft.Json;
 
 namespace KinoDnesApi
 {
-    public class FileSystemShowTimes : IFileSystemShowTimes
+    public class FileSystemShowTimesProvider : IShowTimesProvider
     {
         private readonly string _filename;
 
-        public FileSystemShowTimes()
+        public FileSystemShowTimesProvider()
         {
             var tempPath = Path.GetTempPath();
-            _filename = Path.Combine(tempPath, "showtimes.json");
+            _filename = Path.Combine(tempPath, "cinemas.json");
         }
 
-        public void Set(IEnumerable<Cinema> showtimes)
+        public void Set(IEnumerable<Cinema> cinemas)
         {
-            var serialized = JsonConvert.SerializeObject(showtimes);
+            var serialized = JsonConvert.SerializeObject(cinemas);
             File.WriteAllText(_filename, serialized);
         }
 
@@ -36,7 +36,8 @@ namespace KinoDnesApi
             {
                 var jsonText = File.ReadAllText(_filename);
                 return JsonConvert.DeserializeObject<IEnumerable<Cinema>>(jsonText);
-            } catch (IOException)
+            }
+            catch (IOException)
             {
                 return new List<Cinema>();
             }

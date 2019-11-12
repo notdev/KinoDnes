@@ -7,11 +7,11 @@ namespace KinoDnesApi
 {
     public class DataGenerator
     {
-        private readonly IFileSystemShowTimes _fileSystemShowTimes;
+        private readonly IShowTimesProvider _showTimesProvider;
 
-        public DataGenerator(IFileSystemShowTimes fileSystemShowTimes)
+        public DataGenerator(IShowTimesProvider showTimesProvider)
         {
-            _fileSystemShowTimes = fileSystemShowTimes;
+            _showTimesProvider = showTimesProvider;
         }
 
         private string GetCityName(string cityAndCinemaName)
@@ -35,7 +35,7 @@ namespace KinoDnesApi
 
         private IEnumerable<Cinema> GetCinemasWithMoviesPlayingAtDate(DateTime date)
         {
-            var cinemas = _fileSystemShowTimes.Get();
+            var cinemas = _showTimesProvider.Get();
 
             var listingsPlayingSinceDate = new List<Cinema>();
 

@@ -7,12 +7,12 @@ namespace KinoDnesApi.Controllers
 {
     public class KinoGetController : Controller
     {
-        private readonly IFileSystemShowTimes _fileSystemShowTimes;
+        private readonly IShowTimesProvider _showTimesProvider;
         private readonly DataGenerator _dataGenerator;
 
-        public KinoGetController(IFileSystemShowTimes fileSystemShowTimes, DataGenerator dataGenerator)
+        public KinoGetController(IShowTimesProvider showTimesProvider, DataGenerator dataGenerator)
         {
-            _fileSystemShowTimes = fileSystemShowTimes;
+            _showTimesProvider = showTimesProvider;
             _dataGenerator = dataGenerator;
         }
 
@@ -34,7 +34,7 @@ namespace KinoDnesApi.Controllers
         [Route("/api/kino/get/showtimesage")]
         public int GetShowtimesAge()
         {
-            return _fileSystemShowTimes.GetAgeHours();
+            return _showTimesProvider.GetAgeHours();
         }
 
         [HttpGet]

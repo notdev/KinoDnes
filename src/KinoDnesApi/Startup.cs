@@ -1,5 +1,6 @@
 ﻿using System;
 using KinoDnesApi.DataProviders;
+using KinoDnesApi.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,16 @@ namespace KinoDnesApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration);
+
+            var appSettings = Configuration.Get<AppSettings>();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConfigurationOptions = appSettings.GetRedisSettings();
+            });
             services.AddSingleton<ICsfdDataProvider, CsfdDataProvider>();
             services.AddSingleton<DataGenerator>();
-            services.AddSingleton<IFileSystemShowTimes, FileSystemShowTimes>();
+            services.AddSingleton<IShowTimesProvider, RedisShowTimesProvider>();
             services.AddCors();
             services.AddSingleton<ISentryClient, SentryClient>();
             services.AddHostedService<ShowTimesUpdateService>();

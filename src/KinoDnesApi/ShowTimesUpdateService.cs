@@ -11,17 +11,17 @@ namespace KinoDnesApi
 {
     public class ShowTimesUpdateService : IHostedService, IDisposable
     {
-        private readonly IFileSystemShowTimes _fileSystemShowTimes;
+        private readonly IShowTimesProvider _showTimesProvider;
         private readonly ICsfdDataProvider _csfdDataProvider;
         private readonly ILogger<ShowTimesUpdateService> _logger;
         private readonly ISentryClient _sentryClient;
         private Timer _timer;
         private static readonly object Lock = new object();
 
-        public ShowTimesUpdateService(IFileSystemShowTimes fileSystemShowTimes, ICsfdDataProvider csfdDataProvider,
+        public ShowTimesUpdateService(IShowTimesProvider showTimesProvider, ICsfdDataProvider csfdDataProvider,
             ILogger<ShowTimesUpdateService> logger, IServiceProvider serviceProvider)
         {
-            _fileSystemShowTimes = fileSystemShowTimes;
+            _showTimesProvider = showTimesProvider;
             _csfdDataProvider = csfdDataProvider;
             _logger = logger;
             try
@@ -41,16 +41,16 @@ namespace KinoDnesApi
                 lock (Lock)
                 {
                     _logger.LogInformation("Starting showtimes update.");
-                    if (_fileSystemShowTimes.GetAgeHours() < 4)
+                    if (_showTimesProvider.GetAgeHours() < 4)
                     {
                         _logger.LogInformation("Showtimes age is less than 4 hours, not updating it.");
                         return;
                     }
 
 
-                    var showTimes = _csfdDataProvider.GetAllShowTimes().ToList();
-                    if (showTimes.Any())
-                        _fileSystemShowTimes.Set(showTimes);
+                    var cinemas = _csfdDataProvider.GetAllShowTimes().ToList();
+                    if (cinemas.Any())
+                        _showTimesProvider.Set(cinemas);
                     else
                         throw new Exception("Failed to get any showtimes");
                     _logger.LogInformation("Showtimes update finished.");

@@ -4,6 +4,7 @@ using System.Linq;
 using CsfdAPI;
 using CsfdAPI.Model;
 using KinoDnesApi.Model;
+using Microsoft.Extensions.Caching.Distributed;
 using Cinema = KinoDnesApi.Model.Cinema;
 using Movie = KinoDnesApi.Model.Movie;
 
@@ -11,7 +12,13 @@ namespace KinoDnesApi.DataProviders
 {
     public class CsfdDataProvider : ICsfdDataProvider
     {
+        private readonly IDistributedCache _cache;
         private readonly CsfdApi _csfdApi = new CsfdApi();
+
+        public CsfdDataProvider(IDistributedCache cache)
+        {
+            _cache = cache;
+        }
 
         public IEnumerable<Cinema> GetAllShowTimes()
         {
@@ -33,7 +40,6 @@ namespace KinoDnesApi.DataProviders
         private IEnumerable<Movie> MergeDuplicateMoviesAndAddRating(IEnumerable<CinemaMovie> cinemaListingMovies)
         {
             var listingMoviesDictionary = new Dictionary<string, Movie>();
-            var ratingDictionary = new Dictionary<string, int>();
 
             foreach (var cinemaListingMovie in cinemaListingMovies)
             {
@@ -56,14 +62,7 @@ namespace KinoDnesApi.DataProviders
                     Url = cinemaListingMovie.Url
                 };
 
-                if (!ratingDictionary.TryGetValue(movie.Url, out var rating))
-                {
-                    rating = GetMovieRating(movie.Url);
-                    ratingDictionary.Add(movie.Url, rating);
-                }
-
-                movie.Rating = rating;
-
+                movie.Rating = GetMovieRating(movie.Url);
                 listingMoviesDictionary.Add(movie.MovieName, movie);
             }
 
@@ -72,22 +71,21 @@ namespace KinoDnesApi.DataProviders
 
         private int GetMovieRating(string url)
         {
-            var tryCount = 0;
-            while (tryCount < 3)
+            try
             {
-                tryCount++;
-                try
-                {
-                    var movie = _csfdApi.GetMovie(url);
-                    return movie.Rating;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Failed to get movie, will retry. Exception:{Environment.NewLine}{e}");
-                }
-            }
+                var cacheResult = _cache.GetString(url);
+                if (cacheResult != null) return int.Parse(cacheResult);
 
-            throw new Exception($"Failed to get movie on URL {url}");
+                var movie = _csfdApi.GetMovie(url);
+                _cache.SetString(url, movie.Rating.ToString(),
+                    new DistributedCacheEntryOptions {AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(8)});
+                return movie.Rating;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to get movie, will retry. Exception:{Environment.NewLine}{e}");
+                return 0;
+            }
         }
 
         private IEnumerable<string> GetShortFlags(IEnumerable<string> flags)

@@ -19,7 +19,6 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "key": "123",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:50161/"

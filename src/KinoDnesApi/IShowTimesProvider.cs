@@ -3,10 +3,10 @@ using KinoDnesApi.Model;
 
 namespace KinoDnesApi
 {
-    public interface IFileSystemShowTimes
+    public interface IShowTimesProvider
     {
         IEnumerable<Cinema> Get();
-        void Set(IEnumerable<Cinema> showtimes);
+        void Set(IEnumerable<Cinema> cinemas);
         int GetAgeHours();
     }
 }
