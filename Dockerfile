@@ -10,6 +10,8 @@ RUN dotnet publish KinoDnesApi -c Release -o ./../out
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
 COPY --from=build-env /out .
+
+USER 5000
 ENTRYPOINT ["dotnet", "KinoDnesApi.dll"]
 
 EXPOSE 80
