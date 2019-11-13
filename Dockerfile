@@ -12,6 +12,4 @@ WORKDIR /app
 COPY --from=build-env /out .
 
 USER 5000
-ENTRYPOINT ["dotnet", "KinoDnesApi.dll"]
-
-EXPOSE 80
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet KinoDnesApi.dll

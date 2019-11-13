@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: 'dotnet KinoDnesApi.dll --urls="http://0.0.0.0:$PORT"'
+  web: 'dotnet KinoDnesApi.dll'
