@@ -22,7 +22,7 @@ namespace KinoDnesApi
             File.WriteAllText(_filename, serialized);
         }
 
-        public int GetAgeHours()
+        public int? GetAgeHours()
         {
             var created = File.GetLastWriteTime(_filename);
             var now = DateTime.Now;

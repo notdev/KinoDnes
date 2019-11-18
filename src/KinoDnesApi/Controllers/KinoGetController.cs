@@ -32,7 +32,7 @@ namespace KinoDnesApi.Controllers
 
         [HttpGet]
         [Route("/api/kino/get/showtimesage")]
-        public int GetShowtimesAge()
+        public int? GetShowtimesAge()
         {
             return _showTimesProvider.GetAgeHours();
         }

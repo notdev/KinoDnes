@@ -1,6 +1,7 @@
 ﻿using System;
 using KinoDnesApi.DataProviders;
 using KinoDnesApi.Model;
+using KinoDnesApi.Monitoring;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,7 @@ namespace KinoDnesApi
             services.AddSingleton<IShowTimesProvider, RedisShowTimesProvider>();
             services.AddCors();
             services.AddSingleton<ISentryClient, SentryClient>();
+            services.AddSingleton<DataDogClient>();
             services.AddHostedService<ShowTimesUpdateService>();
             services.AddRazorPages();
             services.AddControllersWithViews();

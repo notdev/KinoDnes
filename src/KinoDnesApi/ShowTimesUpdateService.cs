@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using KinoDnesApi.DataProviders;
+using KinoDnesApi.Monitoring;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -14,16 +15,18 @@ namespace KinoDnesApi
         private readonly IShowTimesProvider _showTimesProvider;
         private readonly ICsfdDataProvider _csfdDataProvider;
         private readonly ILogger<ShowTimesUpdateService> _logger;
+        private readonly DataDogClient _dataDogClient;
         private readonly ISentryClient _sentryClient;
         private Timer _timer;
         private static readonly object Lock = new object();
 
         public ShowTimesUpdateService(IShowTimesProvider showTimesProvider, ICsfdDataProvider csfdDataProvider,
-            ILogger<ShowTimesUpdateService> logger, IServiceProvider serviceProvider)
+            ILogger<ShowTimesUpdateService> logger, IServiceProvider serviceProvider, DataDogClient dataDogClient)
         {
             _showTimesProvider = showTimesProvider;
             _csfdDataProvider = csfdDataProvider;
             _logger = logger;
+            _dataDogClient = dataDogClient;
             try
             {
                 _sentryClient = (ISentryClient) serviceProvider.GetService(typeof(ISentryClient));
@@ -41,7 +44,12 @@ namespace KinoDnesApi
                 lock (Lock)
                 {
                     _logger.LogInformation("Starting showtimes update.");
-                    if (_showTimesProvider.GetAgeHours() < 4)
+                    var showTimesAgeHours = _showTimesProvider.GetAgeHours();
+                    if (showTimesAgeHours != null)
+                        _dataDogClient.SendGauge("kinodnes.showtimesage", showTimesAgeHours.Value).Wait();
+
+
+                    if (showTimesAgeHours < 4)
                     {
                         _logger.LogInformation("Showtimes age is less than 4 hours, not updating it.");
                         return;

@@ -5,20 +5,32 @@ namespace KinoDnesApi.Model
     public class AppSettings
     {
         public string REDIS_URL { get; set; }
+        public string DATADOG_APIKEY { get; set; }
 
         public ConfigurationOptions GetRedisSettings()
         {
             REDIS_URL = REDIS_URL.Replace("redis://", "");
             var split = REDIS_URL.Split("@");
-            var usernamePassword = split[0].Split(":");
-            var hostPort = split[1];
 
-            var config = new ConfigurationOptions
+            if (split.Length == 2)
             {
-                EndPoints = {hostPort},
-                Password = usernamePassword[1]
-            };
-            return config;
+                var usernamePassword = split[0].Split(":");
+                var hostPort = split[1];
+
+                return new ConfigurationOptions
+                {
+                    EndPoints = {hostPort},
+                    Password = usernamePassword[1]
+                };
+            }
+            else
+            {
+                var hostPort = split[0];
+                return new ConfigurationOptions
+                {
+                    EndPoints = {hostPort}
+                };
+            }
         }
     }
 }

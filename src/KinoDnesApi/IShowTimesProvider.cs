@@ -7,6 +7,6 @@ namespace KinoDnesApi
     {
         IEnumerable<Cinema> Get();
         void Set(IEnumerable<Cinema> cinemas);
-        int GetAgeHours();
+        int? GetAgeHours();
     }
 }

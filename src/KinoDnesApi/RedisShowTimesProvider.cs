@@ -27,10 +27,10 @@ namespace KinoDnesApi
             _cache.SetString(CacheKey, serialized);
         }
 
-        public int GetAgeHours()
+        public int? GetAgeHours()
         {
             var cacheEntry = _cache.GetString(CacheKey);
-            if (cacheEntry == null) return int.MaxValue;
+            if (cacheEntry == null) return null;
             var showtimes = JsonConvert.DeserializeObject<ShowTimes>(cacheEntry);
             var timeSinceLastUpdate = DateTime.Now - showtimes.Created;
             return (int) timeSinceLastUpdate.TotalHours;
