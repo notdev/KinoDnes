@@ -34,15 +34,18 @@ namespace KinoDnesApi.Pages
 
     public class NavDates
     {
-        public string Current { get; }
+        public string Selected { get; }
         public string Previous { get; }
         public string Next { get; }
 
-        public NavDates(DateTime current)
+        public NavDates(DateTime selectedDateTime)
         {
-            Current = FormattedDate(current);
-            Next = FormattedDate(current.Date.AddDays(1));
-            Previous = FormattedDate(current.Date.AddDays(-1));
+            var today = CetTime.Now.Date;
+            var isTodaySelected = today.Date == selectedDateTime.Date;
+            Previous = isTodaySelected ? string.Empty : FormattedDate(selectedDateTime.Date.AddDays(-1));
+
+            Selected = FormattedDate(selectedDateTime);
+            Next = FormattedDate(selectedDateTime.Date.AddDays(1));
         }
 
         private string FormattedDate(DateTime dateTime)
