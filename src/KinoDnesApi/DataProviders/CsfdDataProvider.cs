@@ -22,7 +22,7 @@ namespace KinoDnesApi.DataProviders
 
         public IEnumerable<Cinema> GetAllShowTimes()
         {
-            var allListings = _csfdApi.GetAllCinemaListings();
+            var allListings = _csfdApi.GetAllCinemaListings().Result;
 
             return allListings.Select(ApiListingToListingsWithRating);
         }
@@ -76,7 +76,7 @@ namespace KinoDnesApi.DataProviders
                 var cacheResult = _cache.GetString(url);
                 if (cacheResult != null) return int.Parse(cacheResult);
 
-                var movie = _csfdApi.GetMovie(url);
+                var movie = _csfdApi.GetMovie(url).Result;
                 _cache.SetString(url, movie.Rating.ToString(),
                     new DistributedCacheEntryOptions {AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(8)});
                 return movie.Rating;
